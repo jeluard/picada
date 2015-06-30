@@ -52,4 +52,4 @@
     (pmen/show pos [{:name "Click" :fn #(psna/show "Yep")}])))
 
 (.addEventListener js/document "DOMContentLoaded"
-                   #(.appendChild js/document.body (first (h/create (ptb/create-app-bar "Titre" [:pica-item {:action {:name "Titre" :icon "menu"}}])))))
+                   #(.appendChild js/document.body (first (h/create (ptb/create-app-bar "Titre" (list [:h2 "Your stuff"] [:pica-item {:action {:name "Settings" :icon "settings"}}]))))))

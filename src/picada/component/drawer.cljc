@@ -1,13 +1,14 @@
 (ns picada.component.drawer
   #?@(:clj
-      [
-       (:require [picada.color :as col]
+      [(:require [picada.component.subheader :as sub]
+                 [picada.color :as col]
                  [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])]
       :cljs
       [(:require [picada.animation :as anim]
                  [picada.color :as col]
                  [picada.component :as comp]
+                 [picada.component.subheader :as sub]
                  [picada.style :as sty]
                  [hipo.core :as h]
                  [garden.stylesheet :refer [at-media]])
@@ -27,6 +28,7 @@
    (sty/shadows 16)
    ["&[visible]"
     {:transform "none"}]
+   sub/styles
    [:ul
     {:padding 0
      :margin 0}]

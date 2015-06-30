@@ -1,15 +1,11 @@
 (ns picada.component.toolbar
   #?@(:clj
-      [
-       (:require [picada.color :as col]
-                 [picada.style :as sty]
+      [(:require [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])]
       :cljs
-      [(:require [picada.color :as col]
-                 [picada.component :as comp]
+      [(:require [picada.component :as comp]
                  [picada.component.drawer :as dra]
                  [picada.style :as sty]
-                 [hipo.core :as h]
                  [garden.stylesheet :refer [at-media]])
        (:require-macros [lucuma.core :refer [defcustomelement]])]))
 
@@ -45,8 +41,6 @@
         {:height "64px"}]
        [:h2
         {:padding-left "32px"}]))])
-
-; Appbar http://www.google.com/design/spec/layout/structure.html#structure-app-bar
 
 #?(:cljs
 (defcustomelement pica-toolbar

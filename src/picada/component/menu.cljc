@@ -2,11 +2,13 @@
   #?@(:clj
       [
        (:require [picada.color :as col]
+                 [picada.component.subheader :as sub]
                  [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])]
       :cljs
       [(:require [picada.color :as col]
                  [picada.component :as comp]
+                 [picada.component.subheader :as sub]
                  [picada.style :as sty]
                  [hipo.core :as h]
                  [garden.stylesheet :refer [at-media]])
@@ -21,6 +23,7 @@
     :min-width "112px"
     :max-width "280px"}
    (sty/shadows 8)
+   sub/styles
    [:ul
     {:padding 0
      :margin 0}]
