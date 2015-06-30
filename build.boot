@@ -1,6 +1,6 @@
 (set-env!
  :source-paths  #{"src"}
- :dependencies '[[org.clojure/clojure           "1.7.0-RC2"]
+ :dependencies '[[org.clojure/clojure           "1.7.0"]
                  [adzerk/boot-cljs              "0.0-3269-2" :scope "test"]
                  [org.martinklepsch/boot-garden "1.2.5-4"    :scope "test"]
                  [jeluard/boot-cssnext          "0.5.0"      :scope "test"]
