@@ -4,6 +4,7 @@
             [picada.component.dialog :as pdia]
             [picada.component.menu :as pmen]
             [picada.component.snackbar :as psna]
+            [picada.component.toolbar :as ptb]
             [hipo.core :as h]
             [devtools.core :as devtools]
             cljsjs.document-register-element)
@@ -51,5 +52,4 @@
     (pmen/show pos [{:name "Click" :fn #(psna/show "Yep")}])))
 
 (.addEventListener js/document "DOMContentLoaded"
-                   #(.appendChild js/document.body (first (h/create [:pica-app-bar {:title "Titre" :nav [:ul
-                                                                                                         [:pica-item {:action {:name "Titre" :icon "menu"}}]]}]))))
+                   #(.appendChild js/document.body (first (h/create (ptb/create-app-bar "Titre" [:pica-item {:action {:name "Titre" :icon "menu"}}])))))
