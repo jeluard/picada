@@ -10,9 +10,19 @@
             [picada.component.snackbar :as sna]
             [picada.component.spinner :as spi]
             [picada.component.toolbar :as tlb]
+            [picada.style :as st]
             [lucuma.core :as luc]))
 
 (def all-styles [but/styles con/styles dia/styles dra/styles ico/styles ite/styles men/styles ovl/styles sna/styles spi/styles tlb/styles])
+
+(defn all
+  [kp ka]
+  [["@custom-media --desktop (min-width: 600px);" {}]
+   ["@custom-selector --pica-button pica-button, pica-fab, pica-icon-button;" {}]
+   [":root" (st/create-theme kp ka)]
+   [:body
+    {:font-family "RobotoDraft, Arial"}]
+   all-styles])
 
 #?(:cljs
 (defn register-all

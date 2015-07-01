@@ -56,4 +56,5 @@
     {:--accent-color (:A200 (ka col/palette))
      :--accent-icon-color (get-in col/text [(if (light-theme? ka) :dark :light) :--icon-color])}
     (get col/text (if (light-theme? kp) :dark :light))
-    {:--disabled-background-color "#eaeaea"}))
+    {:--disabled-background-color "#eaeaea"
+     :--error-color "#db4437"}))
