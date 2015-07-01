@@ -1,8 +1,10 @@
 (ns picada.component.control
-  #?@(:clj [(:require [picada.style :as sty])]
+  #?@(:clj [(:require [picada.color :as col]
+                      [picada.style :as sty])]
       :cljs
       [(:require [picada.component :as comp]
                  [picada.component.dialog :as dia]
+                 [picada.color :as col]
                  [picada.style :as sty]
                  [lucuma.core :as l])
        (:require-macros [lucuma.core :refer [defcustomelement]])]))
@@ -37,7 +39,7 @@
        :top 0
        :left 0
        :line-height line-height
-       :color "var(--pica-input-disabled-label-color, var(--disabled-text-color))"
+       :color (str "var(--pica-input-disabled-label-color, " (get-in col/text [:dark :--disabled-text-color]) ")")
        :pointer-events "none"}]
      ["input:focus + label"
       {:transition "all 0.25s"}]

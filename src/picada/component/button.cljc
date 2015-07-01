@@ -1,8 +1,10 @@
 (ns picada.component.button
-  #?@(:clj [(:require [picada.style :as st])]
+  #?@(:clj [(:require [picada.color :as col]
+                      [picada.style :as st])]
       :cljs
       [(:require [picada.animation :as anim]
                  [picada.component :as comp]
+                 [picada.color :as col]
                  [picada.style :as st]
                  [lucuma.core :as l])
        (:require-macros [lucuma.core :refer [defcustomelement]])]))
@@ -21,8 +23,8 @@
      [:pica-icon
       {:position "absolute"}]
      ["&[disabled]" "&[busy]"
-      {:color "rgba(0, 0, 0, .26)"
-       :background "rgba(0, 0, 0, .12)"
+      {:color (get-in col/text [:dark :--disabled-text-color])
+       :background (get-in col/text [:dark :--divider-color])
        :cursor "auto"
        :pointer-events "none"}]
      ["&:hover:not([disabled]):not([busy])"
