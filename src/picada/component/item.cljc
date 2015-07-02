@@ -17,9 +17,14 @@
    {:display "flex"
     :align-items "center"
     :height "48px"}
-   ["&:hover"
+   ["&:hover:not([disabled])"
     {:background-color "rgba(0, 0, 0, 0.03)"
      :cursor "pointer"}]
+   ["&[disabled]"
+    {:color (get-in col/text [:dark :--disabled-text-color])
+     :background (get-in col/text [:dark :--divider-color])
+     :cursor "auto"
+     :pointer-events "none"}]
    [:li
     {:display "flex"
      :align-items "center"
@@ -33,7 +38,8 @@
   :mixins [comp/reconciliate]
   :document
   (fn [_ {:keys [action]}]
-    [:li
-     (if (contains? action :icon) [:pica-icon {:icon (:icon action)}])
+    [:li {:on-click (:fn action)}
+     (if (contains? action :icon)
+       [:pica-icon {:icon (:icon action)}])
      [:span (:name action)]])
   :properties {:action nil :disabled false}))

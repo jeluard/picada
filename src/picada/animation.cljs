@@ -19,8 +19,8 @@
 
 (register-animations
   {:delayed-entry {:frames [{:transform "scale(0)"} {:transform "scale(1)"}] :options {:duration 1000 :easing "cubic-bezier(0.4, 0, 0.2, 1)"}}
-   :left-entry {:frames [{:transform "translateX(-100%)"} {:transform "none"}] :options {:duration 300}}
-   :left-exit {:frames [{:transform "none"} {:transform "translateX(-100%)"}] :options {:duration 300}}
+   :left-entry {:frames [{:transform "translateX(-100%)"} {:transform "none"}] :options {:duration 300 :easing "cubic-bezier(.37, .15, .32, .94)"}}
+   :left-exit {:frames [{:transform "none"} {:transform "translateX(-100%)"}] :options {:duration 300 :easing "cubic-bezier(.37, .15, .32, .94)"}}
    :entry {:frames [{:transform "translateY(0)" :opacity 1} {:transform "translateY(50px)" :opacity 0}] :options {:duration 500}}
    :exit {:frames [{:transform "translateY(-50px)" :opacity 0} {:transform "translateY(0)" :opacity 1}] :options {:duration 500 :delay 500}}
    :slide-in-up {:frames [{:opacity 0 :transform "translateY(100%)"} {:opacity 1 :transform "none"}] :options {:duration 200}}

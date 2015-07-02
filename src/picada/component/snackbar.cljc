@@ -39,6 +39,7 @@
     {:transform "translateY(100px)"}]
    [:pica-button
     {:float "right"
+     :height "auto"
      :padding-left "24px"
      :margin 0
      :line-height "initial"

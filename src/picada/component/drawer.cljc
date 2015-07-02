@@ -11,6 +11,7 @@
                  [picada.component.subheader :as sub]
                  [picada.style :as sty]
                  [hipo.core :as h]
+                 [hipo.hiccup :as hhic]
                  [garden.stylesheet :refer [at-media]])
        (:require-macros [lucuma.core :refer [defcustomelement]])]))
 
@@ -33,7 +34,7 @@
     {:padding 0
      :margin 0}]
    ["ul + ul"
-    {:border-top "solid black"}]
+    {:border-top (str "solid 1px var(--divider-color)")}]
    ["pica-item"
     {:padding "0 16px"}]
    (at-media {:--desktop ""}
@@ -47,6 +48,14 @@
 (defn hide
   [el]
   (anim/hide el #(.removeEventListener js/document.body "click" click-outside-listener true))))
+
+#?(:cljs
+(defn items
+  [& v]
+  [:ul
+   (for [i v]
+     (let [attrs (hhic/attributes i)]
+       [:pica-item (merge attrs {:action (comp/wrap-action (:action attrs) (fn [evt f] (f) (hide (.closest (.-target evt) "pica-drawer"))))})]))]))
 
 #?(:cljs
 (defn create
