@@ -32,7 +32,6 @@
     [:pica-button
      display
      {:border "10px"
-      :border-radius "3px"
       :min-width "88px"
       :height "36px"
       :padding "0 8px"
@@ -44,6 +43,7 @@
       :line-height "36px"
       :user-select "none"}
      ["&[raised]"
+      {:border-radius "3px"}
       (st/shadows 2)]
      ["&[raised][pressed]"
       (st/shadows 8)]]

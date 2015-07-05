@@ -22,6 +22,9 @@
    ["&:not([transparent])"
     {:background "var(--pica-toolbar-background-color, var(--primary-color))"}
     (sty/shadows 4)]
+   ["&[primary]:not([transparent])"
+    {:z-index 15 ; just bellow drawers
+    }]
    [:div
     {:display "flex"
      :align-items "center"}]
