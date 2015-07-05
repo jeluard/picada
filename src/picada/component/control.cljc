@@ -9,14 +9,6 @@
                  [lucuma.core :as l])
        (:require-macros [lucuma.core :refer [defcustomelement]])]))
 
-; {:type :input :name "zae" :validate-fn #() :save-fn #() :change-delay :attributes {}}
-
-#?(:cljs
-(defn values
-  [fel]
-  ; TODO map of els values
-  ))
-
 (def ^:private line-height "29px")
 
 (def styles
@@ -239,7 +231,7 @@
         d (or (:delay fom) 500)
         iel (.querySelector el "input")
         validating? (not (nil? f))
-        t (create-timer #(let [v (.-value iel)] (rf % (fn [o] (on-delayed-result iel v submitter validating? o)))) d)]
+        t (create-timer #(let [v (.-value iel)] (rf % (fn [o] (on-delayed-result iel v submitter validating? o)) v)) d)]
     (input-listener t validating?))))
 
 #?(:cljs

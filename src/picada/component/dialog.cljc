@@ -1,8 +1,10 @@
 (ns picada.component.dialog
-  #?@(:clj [(:require [picada.style :as st])]
+  #?@(:clj [(:require [picada.color :as col]
+                      [picada.style :as st])]
       :cljs
       [(:require [picada.aria :as aria]
                  [picada.animation :as anim]
+                 [picada.color :as col]
                  [picada.component :as comp]
                  [picada.component.overlay :as ovl]
                  [picada.style :as st]
@@ -43,7 +45,7 @@
       :padding-bottom "8px"
       :line-height "28px"}]
     [:p
-     {:color "var(--pica-dialog-paragraph-color, var(--secondary-text-color))"}]
+     {:color "var(--pica-dialog-paragraph-color," (get-in col/text [:dark :--secondary-text-color]) ")"}]
     ["h2 + *"
      {:margin-top "20px"}]
     ["h2 + *"
@@ -100,7 +102,23 @@
    (.focus el)
    el)))
 
+#?(:cljs
+(defn input-id
+  [iel]
+  (let [id (.-id iel)]
+    (if-not (empty? id)
+      id
+      (if-let [lel (.-nextElementSibling iel)]
+        (if lel
+          (.-textContent lel)))))))
+
+#?(:cljs
+(defn values
+  [el]
+  (into {} (for [iel (array-seq (.-elements el))] [(keyword (input-id iel)) (.-value iel)]))))
+
 #?(:cljs (defn wrap [a] (comp/wrap-action a #(do (if %2 (%2 %1)) (dismiss (.closest (.-target %1) "pica-dialog"))))))
+#?(:cljs (defn wrap-with-values [a] (comp/wrap-action a #(do (if %2 (%2 %1 (values (.closest (.-target %1) "form")))) (dismiss (.closest (.-target %1) "pica-dialog"))))))
 
 ; TODO changes to children should trigger reconciliation: mixin react-on-container-changes
 
@@ -111,7 +129,7 @@
    (if (or c d)
      [:div {:class "actions"}
       (if d [:pica-button {:class "discard" :action (wrap d)}])
-      (if c [:pica-button {:class confirm-class :action (wrap c)}])]))))
+      (if c [:pica-button {:class confirm-class :action (wrap-with-values c)}])]))))
 
 #?(:cljs
 (defn create-dialog
@@ -144,6 +162,11 @@
      ([pel modal? m t s mc md]
       (let [el (create-dialog :form m t s mc md)]
         (show pel el modal?)))))
+
+#?(:cljs
+(defn show-multisteps-form
+  [v]
+  ))
 
 (def ^:private labeled-by "dialog-title")
 (def ^:private described-by "dialog-content")
