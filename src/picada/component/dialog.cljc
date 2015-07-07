@@ -118,7 +118,7 @@
   (into {} (for [iel (array-seq (.-elements el))] [(keyword (input-id iel)) (.-value iel)]))))
 
 #?(:cljs (defn wrap [a] (comp/wrap-action a #(do (if %2 (%2 %1)) (dismiss (.closest (.-target %1) "pica-dialog"))))))
-#?(:cljs (defn wrap-with-values [a] (comp/wrap-action a #(do (if %2 (%2 %1 (values (.closest (.-target %1) "form")))) (dismiss (.closest (.-target %1) "pica-dialog"))))))
+#?(:cljs (defn wrap-with-values [a] (comp/wrap-action a #(do (if %2 (if-let [fel (.closest (.-target %1) "form")] (%2 %1 (values fel)) (%2 %1))) (dismiss (.closest (.-target %1) "pica-dialog"))))))
 
 ; TODO changes to children should trigger reconciliation: mixin react-on-container-changes
 
