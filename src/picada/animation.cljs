@@ -56,7 +56,8 @@
       js/window
       #(let [a (animate el p)] (.addEventListener a "finish" f)))
     (if f
-      (f))))
+      (f)))
+  el)
 
 (defn show
   ([el] (show el nil))
@@ -67,6 +68,11 @@
   ([el] (hide el nil))
   ([el f]
    (animate-property el :animation-exit #(do (if f (f)) (set! (.-visible el) false)))))
+
+(defn dismiss
+  ([el] (dismiss el nil))
+  ([el f]
+   (hide el #(do (if f (f el)) (.remove el)))))
 
 (def animation-lifecycle
   {:on-attached

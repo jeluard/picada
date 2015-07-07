@@ -191,7 +191,7 @@
                                           nil)))}))
 
 (defn wrap-listener [f wf] (fn [evt] (f evt wf)))
-(defn wrap-action [m f] {:name (:name m) :fn (wrap-listener f (:fn m))})
+(defn wrap-action [m f] (merge {:fn (wrap-listener f (:fn m))} (if-let [s (:name m)] {:name s}) (if-let [s (:icon m)] {:icon s})))
 
 ; Use as #(comp/reconciliate % {:interceptor (hipo.interceptor/LogInterceptor. false)}) for some debug
 

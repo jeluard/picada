@@ -21,6 +21,8 @@
   (if-let [oel (.querySelector (or el js/document) "pica-overlay")]
     (.remove oel))))
 
+; TODO switch to picada.animation
+
 #?(:cljs
 (defcustomelement pica-overlay
   :properties {:visible false}))

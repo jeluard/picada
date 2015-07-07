@@ -33,7 +33,20 @@
                     [:pica-input {:label "Prénom" :value "Jean-Claude"}]
                     [:pica-checkbox {:checked true :label "Check this"}]
                     [:pica-switch {:checked true :label "Switch this"}])
-                  {:name "OK" :fn #(psna/show "Saved" {:name "Undo" :fn (fn [] (psna/show "Undid"))})} {:name "Cancel"}))
+                  {:name "OK" :fn #(pdia/show-alert (str "Got values: " %2))} {:name "Cancel"}))
+
+(defn ^:export open-dialog-multi-form
+  []
+  (pdia/show-multi-form
+    [{}]
+    "Some stuff"
+                  (list
+                    [:pica-input {:label "Nom" :validator (fn [evt f] (.setTimeout js/window #(f (if-let [s (.. evt -target -value)] (if (< 6 (count s)) "No more than 6 characters"))) 1000))
+                                  :input-attributes {:pattern ".{3,}" :required true :autofocus true}}]
+                    [:pica-input {:label "Prénom" :value "Jean-Claude"}]
+                    [:pica-checkbox {:checked true :label "Check this"}]
+                    [:pica-switch {:checked true :label "Switch this"}])
+                  {:name "OK" :fn #(pdia/show-alert (str "Got values: " %2))} {:name "Cancel"}))
 
 (defn ^:export open-dialog-input
   []
@@ -44,13 +57,10 @@
                     [:pica-input {:label "Prénom (no validator)" :value "Jean-Claude" :submitter #(psna/show "Change saved!")}])
                   {:name "OK" :fn #(psna/show "Saved" {:name "Undo" :fn (fn [] (psna/show "Undid"))})}))
 
-(defn ^:export show-menu
+(defn ^:export open-menu
   [evt]
-  (.log js/console evt)
-  (let [bel (.closest (.-target evt) "pica-icon-button")
-        r (.getBoundingClientRect bel)
-        pos {:x (- (.-right r) 112) :y (.-top r)}]
-    (pmen/show pos [{:name "Click" :fn #(psna/show "Yep")}])))
+  (pmen/show-at-event evt "button" [{:name "Click" :fn #(psna/show "Yep")}
+                                    {:name "Settings" :fn #(psna/show "Settings") :icon "settings"}]))
 
 (.addEventListener js/document "DOMContentLoaded"
                    #(.appendChild js/document.body (first (h/create (ptb/create-app-bar "Titre" (list [:h2 "Your stuff"]

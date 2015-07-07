@@ -69,7 +69,7 @@
 (defn dismiss
   [el]
   (ovl/dismiss)
-  (anim/hide el #(.remove el))))
+  (anim/dismiss el)))
 
 (def ^:private confirm-class "confirm")
 

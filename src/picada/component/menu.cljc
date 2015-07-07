@@ -1,17 +1,15 @@
 (ns picada.component.menu
   #?@(:clj
-      [
-       (:require [picada.color :as col]
-                 [picada.component.subheader :as sub]
+      [(:require [picada.component.subheader :as sub]
                  [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])]
       :cljs
-      [(:require [picada.color :as col]
+      [(:require [picada.animation :as anim]
                  [picada.component :as comp]
                  [picada.component.subheader :as sub]
                  [picada.style :as sty]
-                 [hipo.core :as h]
-                 [garden.stylesheet :refer [at-media]])
+                 [garden.stylesheet :refer [at-media]]
+                 [hipo.core :as h])
        (:require-macros [lucuma.core :refer [defcustomelement]])]))
 
 (def styles
@@ -26,25 +24,55 @@
    sub/styles
    [:ul
     {:padding 0
-     :margin 0}]
+     :margin 0}
+    [:pica-item
+     {:padding "0 16px"}]]
    ["ul + ul"
-    {:border-top "solid black"}]])
+    {:border-top "solid black"}]
+   (at-media {:--desktop ""}
+     ["& ul"
+      {:padding "0 24px"}])])
+
+#?(:cljs (declare dismiss))
+
+#?(:cljs (def click-outside-listener #(if-not (.closest (.-target %) "pica-menu") (dismiss (.querySelector js/document "pica-menu")))))
 
 #?(:cljs
 (defn show
-  [pos actions]
+  [actions]
   (let [[mel _] (h/create [:pica-menu {:actions actions}])]
-    (.setAttribute mel "style" (str "left: " (:x pos) "px; top:" (:y pos) "px"))
-    (.appendChild js/document.body mel))))
+    (.appendChild js/document.body mel)
+    (anim/show mel #(.addEventListener js/document.body "click" click-outside-listener true)))))
+
+#?(:cljs
+(defn location-from-component
+  [evt el s]
+  (let [cel (.closest (.-target evt) s)
+        r (.getBoundingClientRect cel)]
+    {:x (.-left r) :y (.-bottom r)})))
+
+#?(:cljs
+(defn show-at-event
+  ([evt actions] (show-at-event evt nil actions))
+  ([evt s actions]
+   (let [mel (show actions)
+         pos (or (if s (location-from-component evt mel s))
+                 {:x (.-clientX evt) :y (.-clientY evt)})]
+     (.setAttribute mel "style" (str "left: " (:x pos) "px; top: " (:y pos) "px"))))))
+
+#?(:cljs
+(defn dismiss
+  [el]
+  (anim/dismiss el #(.removeEventListener js/document.body "click" click-outside-listener true))))
 
 #?(:cljs
 (defcustomelement pica-menu
   {comp/material-ref {:menu "http://www.google.com/design/spec/components/menus.html"}}
-  :mixins [comp/reconciliate]
+  :mixins [comp/reconciliate anim/animation-lifecycle]
   :document
   (fn [_ {:keys [actions]}]
     [:ul
      (for [m actions]
-       [:pica-item {:action m}])])
+       [:pica-item  {:action (comp/wrap-action m (fn [evt f] (f) (dismiss (.closest (.-target evt) "pica-menu"))))}])])
   :properties {:actions nil}
   :methods {:dismiss dismiss}))

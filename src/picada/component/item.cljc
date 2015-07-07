@@ -28,6 +28,8 @@
    [:li
     {:display "flex"
      :align-items "center"
+     :width "100%"
+     :height "100%"
      :list-style-type "none"}
     [:pica-icon
      {:margin-right "24px"}]]])

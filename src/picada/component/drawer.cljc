@@ -74,4 +74,5 @@
 (defcustomelement pica-drawer
   {comp/material-ref {:navigation-drawer "http://www.google.com/design/spec/patterns/navigation-drawer.html"}}
   :mixins [anim/animation-lifecycle]
-  :properties {:animation-entry :left-entry :animation-exit :left-exit}))
+  :properties {:animation-entry :left-entry :animation-exit :left-exit}
+  :methods {:hide hide}))
