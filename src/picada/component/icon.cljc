@@ -9,10 +9,8 @@
 (def styles
   [:pica-icon
    {:position "relative"
-    :width "inherit"
     :top 0
     :left 0
-    :height "inherit"
     :display "flex"
     :justify-content "center"
     :align-items "center"}

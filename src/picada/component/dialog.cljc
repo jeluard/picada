@@ -65,6 +65,10 @@
      ["pica-button:not([disabled]).confirm"
       {:color "var(--pica-dialog-button-confirm-color, currentColor)"}]]]])
 
+#?(:cljs (def ^:private input-id-prefix "i-"))
+#?(:cljs (defn id->input-id [s] (str input-id-prefix s)))
+#?(:cljs (defn input-id->id [s] (subs s (count input-id-prefix))))
+
 #?(:cljs
 (defn dismiss
   [el]
@@ -107,7 +111,7 @@
   [iel]
   (let [id (.-id iel)]
     (if-not (empty? id)
-      id
+      (input-id->id id)
       (if-let [lel (.-nextElementSibling iel)]
         (if lel
           (.-textContent lel)))))))

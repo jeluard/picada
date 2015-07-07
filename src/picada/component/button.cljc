@@ -51,7 +51,10 @@
      display
      {:width "48px"
       :height "48px"
-      :border-radius "50%"}]
+      :border-radius "50%"}
+     [:pica-icon
+      {:width "inherit"
+       :height "inherit"}]]
     [:pica-fab
      display
      {:width "56px"
@@ -65,6 +68,9 @@
        :top 0
        :left 0
        :width "inherit"
+       :height "inherit"}]
+     [:pica-icon
+      {:width "inherit"
        :height "inherit"}]
      ["&:not([busy])"
       (st/shadows 6)]

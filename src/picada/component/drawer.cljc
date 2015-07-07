@@ -42,6 +42,8 @@
       {:width "auto"
        :max-width "400px"}])])
 
+#?(:cljs (declare hide))
+
 #?(:cljs (def click-outside-listener #(if-not (.closest (.-target %) "pica-drawer") (hide (.querySelector js/document "pica-drawer")))))
 
 #?(:cljs

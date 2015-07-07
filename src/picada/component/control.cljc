@@ -265,7 +265,7 @@
                     (remove-class (.querySelector %1 "label") "floating"))))
   :document
   (fn [el {:keys [id validator submitter label value input-attributes]}]
-    (let [by (if-not (empty? id) (str "i-" id))]
+    (let [by (if-not (empty? id) (dia/id->input-id id))]
       [:div
        [:input ^:attrs (merge
                          (if id {:id by})
