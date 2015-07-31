@@ -13,6 +13,9 @@
             [picada.style :as st]
             [lucuma.core :as luc]))
 
+(def all-components [but/pica-button but/pica-fab but/pica-icon-button con/pica-checkbox con/pica-input con/pica-switch
+                     dia/pica-dialog dra/pica-drawer ico/pica-icon ite/pica-item men/pica-menu ovl/pica-overlay
+                     sna/pica-snackbar spi/pica-spinner tlb/pica-toolbar])
 (def all-styles [but/styles con/styles dia/styles dra/styles ico/styles ite/styles men/styles ovl/styles sna/styles spi/styles tlb/styles])
 
 (defn all
@@ -27,5 +30,4 @@
 #?(:cljs
 (defn register-all
   []
-  (luc/register but/pica-button but/pica-fab but/pica-icon-button con/pica-checkbox con/pica-input con/pica-switch dia/pica-dialog dra/pica-drawer ico/pica-icon
-                ite/pica-item men/pica-menu ovl/pica-overlay sna/pica-snackbar spi/pica-spinner tlb/pica-toolbar)))
+  (luc/register all-components)))

@@ -48,9 +48,12 @@
                                 ; Do not enqueue but synchronously reconciliate so that the element content is accurate at the end of :on-created
                                 (h/reconciliate! el default-hiccup h hm)
                                 (aset el hiccup-property h)))
-                ; TODO allow to declare that a property is not used for document creation
                 :on-property-changed (fn [el s] (enqueue-changes el m hm))}))
 
+; TODO idea
+; document gets element and a map that can be augmented
+; properties (filtered), last event of an handler, result from DS query , .. (user can provide new)
+; :document-map {:properties {:filtered #{:active}}  :events }
 
 ; :on-created performs a reconciliation of the host element created by CustomElements with the default host content
 ; :on-property-changed queues changes that will be reconciliated in a rAF.
@@ -66,9 +69,6 @@
 ; (h/reconciliate! el [:pica-snackbar {:id "id" :action {:name "Some other Action"}}])
 ; => 1. reconciliation is performed, updating the value of action property
 ;    2. :on-property-changed is called triggering a second reconciliation of the same element (but with different args) that update the button child
-
-; TODO
-; Investigate how :create-element-fn can help creating complete element in one pass, bypassing set-attribute stepping
 
 (defn show
   ([el] (show el nil))
@@ -100,6 +100,8 @@
               reconciliate)]))
 
 (comment
+;TODO perf
+; Investigate how :create-element-fn can help creating complete element in one pass, bypassing set-attribute stepping
 (def ^:private hipo-attrs (atom nil))
 ;in reconciliate
 (def ^:private registered (atom nil))
