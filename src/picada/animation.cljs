@@ -16,6 +16,8 @@
 ; http://ianlunn.github.io/Hover/
 ; http://daneden.github.io/animate.css/
 ; http://www.minimamente.com/example/magic_animations/
+; react-animation
+; enter/leave; attached/detached
 
 (register-animations
   {:delayed-entry {:frames [{:transform "scale(0)"} {:transform "scale(1)"}] :options {:duration 1000 :easing "cubic-bezier(0.4, 0, 0.2, 1)"}}
@@ -29,20 +31,24 @@
    :slide-out-down {:frames [{:opacity 1 :transform "none"} {:opacity 0 :transform "translateY(-100%)"}] :options {:duration 200}}
    :zoom-in {:frames [{:transform "scale(0.5)"} {:transform "scale(1)"}] :options {:duration 100}}
    :zoom-out {:frames [{:transform "scale(1)"} {:transform "scale(0.5)"}] :options {:duration 100 :easing "ease-in-out"}}
-   })
+   ; TODO add support for mobile (bottom 0px)
+   :snackbar-entry {:frames [{:bottom "-100px"} {:bottom "12px"}] :options {:duration 300 :easing "ease-in-out"}}
+   :snackbar-exit {:frames [{:bottom "12px"} {:bottom "-100px"}] :options {:duration 300 :easing "ease-in-out"}}
+   :overlay-entry {:frames [{:opacity 0} {:opacity 0.6}] :options {:duration 200 :easing "ease-in-out"}}
+   :overlay-exit {:frames [{:opacity 0.6} {:opacity 0}] :options {:duration 200 :easing "ease-in-out"}}})
 
 (def default-options {:duration 1000})
 
 (defn ^:export all [] (keys @animations))
 
-(defn- animation
+(defn- get-animation
   [s]
   (if s
     (or ((keyword s) @animations) (.warn js/console (str "Unknown animation <" s ">")))))
 
 (defn animate
   [el k]
-  (let [o (animation k)
+  (let [o (get-animation k)
         frames (or (:frames o) o)
         options (:options o)]
     (if options
@@ -54,30 +60,20 @@
   (if-let [p (k (l/get-properties el))]
     (.requestAnimationFrame
       js/window
-      #(let [a (animate el p)] (.addEventListener a "finish" f)))
+      #(.addEventListener (animate el p) "finish" f))
     (if f
       (f)))
   el)
 
-(defn show
-  ([el] (show el nil))
-  ([el f]
-   (animate-property el :animation-entry #(do (if f (f)) (set! (.-visible el) true)))))
-
-(defn hide
-  ([el] (hide el nil))
-  ([el f]
-   (animate-property el :animation-exit #(do (if f (f)) (set! (.-visible el) false)))))
-
 (defn dismiss
   ([el] (dismiss el nil))
   ([el f]
-   (hide el #(do (if f (f el)) (.remove el)))))
+   (animate-property el :animation-exit #(do (if f (f el)) (.remove el)))))
 
-(def animation-lifecycle
+(def animation
   {:on-attached
    (fn [el]
-     (if (:animate-on-attached (l/get-properties el))
-       (show el)))
-   :properties {:visible false :animate-on-attached false :animation-entry {:type :keyword :default nil} :animation-exit {:type :keyword :default nil}}})
-
+     (if (:animation-entry (l/get-properties el))
+       (animate-property el :animation-entry nil)))
+   :properties {:animation-entry {:type :keyword :default nil} :animation-exit {:type :keyword :default nil}}
+   :methods {:dismiss dismiss}})

@@ -4,8 +4,6 @@
                  [picada.component :as comp]
                  [lucuma.core :as l :refer-macros [defcustomelement]])]))
 
-; http://www.google.com/design/spec/components/snackbars-toasts.html
-
 (def styles
   [:pica-icon
    {:position "relative"
@@ -19,7 +17,7 @@
 
 #?(:cljs
 (defcustomelement pica-icon
-  :mixins [anim/animation-lifecycle comp/reconciliate]
+  :mixins [comp/component]
   :on-property-changed
   (fn [el s]
     (if-let [m (l/get-change s :icon)]
@@ -32,5 +30,8 @@
             (if (:new-value m)
               (if-let [anim (:animation-icon-entry (l/get-properties el))]
                 (anim/animate iel anim))))))))
-  :document (fn [_ {:keys [icon]}] [:i {:class "material-icons"} icon])
+  :document
+  (fn [_ {:keys [icon]}]
+    [:host
+     [:i {:class "material-icons"} icon]])
   :properties {:icon "" :animation-icon-entry {:type :keyword :default nil} :animation-icon-exit {:type :keyword :default nil}}))

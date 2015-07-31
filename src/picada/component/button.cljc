@@ -15,18 +15,24 @@
 
 (def styles
   (list
-    [:--pica-button
+    [":--pica-button"
      {:position "relative"
       :transition st/shadow-transition
       :transform-origin "50% 50%"
       :outline "none"}
      [:pica-icon
       {:position "absolute"}]
-     ["&[disabled]" "&[busy]"
+      ; TODO cssnext bug?
+     ["&[disabled]"
       {:color (get-in col/text [:dark :--disabled-text-color])
        :background (get-in col/text [:dark :--divider-color])
        :cursor "auto"
        :pointer-events "none"}]
+       ["&[busy]"
+        {:color (get-in col/text [:dark :--disabled-text-color])
+         :background (get-in col/text [:dark :--divider-color])
+         :cursor "auto"
+         :pointer-events "none"}]
      ["&:hover:not([disabled]):not([busy])"
       {:cursor "pointer"}]]
     [:pica-button
@@ -63,12 +69,6 @@
       :border-radius "50%"
       :color "var(--pica-fab-color, var(--accent-icon-color))"
       :background-color "var(--pica-fab-background-color, var(--accent-color))"}
-     [:div                                                  ; TODO only needed because listener is not on host
-      {:position "absolute"
-       :top 0
-       :left 0
-       :width "inherit"
-       :height "inherit"}]
      [:pica-icon
       {:width "inherit"
        :height "inherit"}]
@@ -106,12 +106,11 @@
 #?(:cljs
 (defcustomelement pica-button
   {:picada/material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}}
-  :mixins [pica-button-base]
-  :on-created #(.setAttribute % "tabindex" 0) ; TODO tabindex -1 when disabled
-  :on-property-changed (fn [el s]
-                (when-let [action (:action (l/changes->map s))]
-                  (set! (.-onclick el) #((:fn action) %))
-                  (set! (.-textContent el) (:name action))))
+  :mixins [pica-button-base comp/component]
+  :document
+  (fn [_ {:keys [action disabled]}]
+    [:host {:tabindex (if disabled -1 0) :on-click (:fn action)}
+      (:name action)])
   :properties {:raised false}))
 
 #?(:cljs
@@ -125,43 +124,24 @@
 #?(:cljs
 (defcustomelement pica-icon-button
   {:picada/material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}}
-  :mixins [pica-button-base comp/reconciliate]
-  :document (fn [_ {:keys [action] :as m}] [:pica-icon {:icon (icon m) :on-click (:fn action)}])
+  :mixins [pica-button-base comp/component]
+  :document
+  (fn [_ {:keys [action disabled] :as m}]
+    [:host {:tabindex (if disabled -1 0) :on-click (:fn action)}
+      [:pica-icon {:icon (icon m)}]])
   :properties {:icon ""}))
-
-#?(:cljs
-(defn set-action!
-  [el {:keys [name]}]
-  (if name
-    (if-not (= name (.-title el))
-      (set! (.-title el) name)))))
 
 #?(:cljs
 (defcustomelement pica-fab
   {comp/material-ref {:button "http://www.google.com/design/spec/components/buttons-floating-action-button.html"}}
-  :mixins [pica-button-base anim/animation-lifecycle comp/reconciliate]
-  :on-created #(.setAttribute % "tabindex" 0) ; TODO tabindex -1 when disabled
+  :mixins [pica-button-base comp/component]
   :document
-  (fn [el {:keys [action mini busy animation-icon-entry animation-icon-exit] :as m}]
-    (if action (set-action! el action))
-    [:div ^:attrs (if action
-                    {:on-click (comp/wrap-action action #(when-let [f (:fn action)] (set! (.-busy el) true) (f %) (set! (.-busy el) false)))})
+  (fn [el {:keys [action disabled mini busy animation-icon-entry animation-icon-exit] :as m}]
+    [:host ^:attrs (merge {:tabindex (if disabled -1 0)}
+                    (if (or action busy)
+                      {:name (:name action)
+                       :on-click (comp/wrap-action action #(when-let [f (:fn action)] (set! (.-busy el) true) (f %) (set! (.-busy el) false)))}))
      [:pica-icon {:icon (icon m) :animation-icon-entry animation-icon-entry :animation-icon-exit animation-icon-exit}]
      (if busy
        [:pica-spinner {:attrs (if mini {:c 24 :r 22} {:c 32 :r 30})}])])
   :properties {:icon "" :mini false :busy false :animation-icon-entry "" :animation-icon-exit ""}))
-
-#_(:cljs
-   (defcustomelement pica-fab
-                     {comp/material-ref {:button "http://www.google.com/design/spec/components/buttons-floating-action-button.html"}}
-                     :mixins [pica-button-base anim/animation-lifecycle comp/reconciliate2]
-                     :document
-                     (fn [el {:keys [disabled action mini busy animation-icon-entry animation-icon-exit] :as m}]
-                       (if action (set-action! el action))
-                       [:host ^:attrs (merge {:tabindex (if disabled -1 0)} action
-                                       (if action
-                                         {:on-click (comp/wrap-action action #(when-let [f (:fn action)] (set! (.-busy el) true) (f %) (set! (.-busy el) false)))}))
-                        [:pica-icon {:icon (icon m) :animation-icon-entry animation-icon-entry :animation-icon-exit animation-icon-exit}]
-                        (if busy
-                          [:pica-spinner {:attrs (if mini {:c 24 :r 22} {:c 32 :r 30})}])])
-                     :properties {:icon "" :mini false :busy false :animation-icon-entry "" :animation-icon-exit ""}))

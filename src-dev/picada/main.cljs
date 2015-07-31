@@ -1,20 +1,16 @@
 (ns picada.main
   (:require [picada.bootstrap :as boot]
-            [picada.component.control :as pcon]
             [picada.component.dialog :as pdia]
             [picada.component.drawer :as pdra]
             [picada.component.menu :as pmen]
             [picada.component.snackbar :as psna]
             [picada.component.toolbar :as ptb]
             [hipo.core :as h]
-            [devtools.core :as devtools]
-            cljsjs.document-register-element)
+            cljsjs.document-register-element
+            cljsjs.dom4)
   (:require-macros [picada.doc :refer [doc]]))
 
-(devtools/install!)
-
 (boot/register-all)
-(.log js/console (doc (meta pcon/pica-input)))
 
 (defn ^:export open-snackbar [] (psna/show "Test snackar" {:name "Undo" :fn #(psna/show "You UNDOed the snackbar")}))
 (defn ^:export open-alert [] (pdia/show-alert "Just wanted to inform you." {:name "OK" :fn #(psna/show "You clicked OK")}))
@@ -35,6 +31,7 @@
                     [:pica-switch {:checked true :label "Switch this"}])
                   {:name "OK" :fn #(pdia/show-alert (str "Got values: " %2))} {:name "Cancel"}))
 
+#_
 (defn ^:export open-dialog-multi-form
   []
   (pdia/show-multi-form
@@ -63,7 +60,7 @@
                                     {:name "Settings" :fn #(psna/show "Settings") :icon "settings"}]))
 
 (.addEventListener js/document "DOMContentLoaded"
-                   #(.appendChild js/document.body (first (h/create (ptb/create-app-bar "Titre" (list [:h2 "Your stuff"]
-                                                                                                      (pdra/items
-                                                                                                        [:pica-item {:disabled true :action {:name "Action disabled"}}]
-                                                                                                        [:pica-item {:action {:name "Settings" :icon "settings" :fn (fn [] (psna/show "You clicked on settings"))}}])))))))
+                   #(.appendChild js/document.body (h/create (ptb/create-app-bar "Titre" (list [:h2 "Your stuff"]
+                                                                                                (pdra/items
+                                                                                                 [:pica-item {:disabled true :action {:name "Action disabled"}}]
+                                                                                                 [:pica-item {:action {:name "Settings" :icon "settings" :fn (fn [] (psna/show "You clicked on settings"))}}]))))))

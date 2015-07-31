@@ -12,6 +12,7 @@
 (def styles
   [:pica-toolbar
    {:display "flex"
+    :align-items "center"
     :min-height "56px"
     :color "var(--pica-snackbar-text-color, var(--secondary-text-color))"}
    ["&[primary]"
@@ -25,11 +26,6 @@
    ["&[primary]:not([transparent])"
     {:z-index 15 ; just bellow drawers
     }]
-   [:div
-    {:display "flex"
-     :align-items "center"}]
-   [:.left-actions
-    {}]
    [:h2
     {:margin 0
      :padding-left "24px"
@@ -49,10 +45,10 @@
 (defcustomelement pica-toolbar
   {comp/material-ref {:toolbar "http://www.google.com/design/spec/components/toolbars.html"
                       :structure "http://www.google.com/design/spec/layout/structure.html#structure-toolbars"}}
-  :mixins [comp/reconciliate]
+  :mixins [comp/component]
   :document
   (fn [_ {:keys [title left-actions right-actions]}]
-    [:div
+    [:host
      [:div {:class "left-actions"}
       (for [m left-actions]
         [:pica-icon-button {:action m}])]

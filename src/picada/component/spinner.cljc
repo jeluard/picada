@@ -55,7 +55,9 @@
       [:circle
        {:animation [[dash "1.5s" :ease-in-out :infinite]
                     [color "6s" :ease-in-out :infinite]]}]]]]])
-
+; TODO no more SVG based
+; too CPU hungry
+; harder to scale
 #?(:cljs
 (defn- set-dasharray!
   [el r]
@@ -69,7 +71,7 @@
 #?(:cljs
 (defcustomelement pica-spinner
   {:picada/material-ref {:button "http://www.google.com/design/spec/components/progress-activity.html"}}
-  :mixins [comp/reconciliate]
+  :mixins [comp/component]
   :on-attached (fn [el]
                 (set-dasharray! el 20)
                  (if-let [value (:value (l/get-properties el))]
@@ -80,21 +82,8 @@
       (set-dashoffset! el 20 value)))
   :document
   (fn [_ {:keys [attrs]}]
-    [:svg
-     [:circle ^:attrs (merge {:cx 50 :cy 50 :r 20}
-                             (if attrs {:cx (:c attrs) :cy (:c attrs) :r (:r attrs)}))]])
+    [:host
+     [:svg {:width "100px" :height "100px"}
+      [:circle ^:attrs (merge {:cx 50 :cy 50 :r 20}
+                             (if attrs {:cx (:c attrs) :cy (:c attrs) :r (:r attrs)}))]]])
   :properties {:value {:type :number :default nil} :attrs nil}))
-
-#_(:cljs
-   (defcustomelement pica-spinner
-                     {:picada/material-ref {:button "http://www.google.com/design/spec/components/progress-activity.html"}}
-                     :mixins [comp/reconciliate]
-                     :document
-                     (fn [_ {:keys [attrs value]}]
-                       [:host
-                         [:svg
-                          [:circle ^:attrs (merge {:cx 50 :cy 50 :r 20}
-                                                  {:style {:styleDashOffset (* (/ (* r js/Math.PI 2) 100) (- 100 value))
-                                                            :styleDashArray (* r js/Math.PI 2)}}
-                                                  (if attrs {:cx (:c attrs) :cy (:c attrs) :r (:r attrs)}))]]])
-                     :properties {:value {:type :number :default nil} :attrs nil}))

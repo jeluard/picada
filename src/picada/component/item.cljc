@@ -1,7 +1,6 @@
 (ns picada.component.item
   #?@(:clj
-      [
-       (:require [picada.color :as col]
+      [(:require [picada.color :as col]
                  [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])]
       :cljs
@@ -37,11 +36,12 @@
 #?(:cljs
 (defcustomelement pica-item
   {comp/material-ref {:menu "http://www.google.com/design/spec/components/menus.html"}}
-  :mixins [comp/reconciliate]
+  :mixins [comp/component]
   :document
   (fn [_ {:keys [action]}]
-    [:li {:on-click (:fn action)}
-     (if (contains? action :icon)
+    [:host
+     [:li {:on-click (:fn action)}
+      (if (contains? action :icon)
        [:pica-icon {:icon (:icon action)}])
-     [:span (:name action)]])
+      [:span (:name action)]]])
   :properties {:action nil :disabled false}))

@@ -6,7 +6,6 @@
                  [picada.animation :as anim]
                  [picada.color :as col]
                  [picada.component :as comp]
-                 [picada.component.overlay :as ovl]
                  [picada.style :as st]
                  [hipo.core :as h]
                  [lucuma.core :as l :refer-macros [defcustomelement]])]))
@@ -72,7 +71,8 @@
 #?(:cljs
 (defn dismiss
   [el]
-  (ovl/dismiss)
+  (if-let [oel (.querySelector js/document "pica-overlay")]
+    (anim/dismiss oel))
   (anim/dismiss el)))
 
 (def ^:private confirm-class "confirm")
@@ -138,13 +138,12 @@
 #?(:cljs
 (defn create-dialog
   [k m t c mc md]
-  (first (h/create
-           [:pica-dialog ^:attrs (merge {:animate-on-attached true :animation-entry "zoom-in" :animation-exit "zoom-out"} m)
-            (let [cs (list (if-not (empty? t) [:h2 t])
-                           c (create-actions mc md))]
-              (if (= :div k)
-                [:div cs]
-                [:form cs]))]))))
+  (h/create [:pica-dialog ^:attrs (merge {:show-on-attached true :animation-entry "zoom-in" :animation-exit "zoom-out"} m)
+             (let [cs (list (if-not (empty? t) [:h2 t])
+                            c (create-actions mc md))]
+               (if (= :div k)
+                 [:div cs]
+                 [:form cs]))])))
 
 #?(:cljs
 (defn show-alert
@@ -184,8 +183,8 @@
 
 #?(:cljs
 (defcustomelement pica-dialog
-  {comp/material-ref {:button ""}}
-  :mixins [anim/animation-lifecycle]
+  {comp/material-ref {:dialog ""}}
+  :mixins [comp/component]
   :on-created #(do (.setAttribute % "tabindex" 1) (.setAttribute % "role" "dialog"))
   :on-attached
   (fn [el]

@@ -13,61 +13,60 @@
 
 (def styles
   [[:pica-input
-    {:display "block"}
-    ["> div"
-     {:position "relative"}
-     [:input
-      {:background   "none"
-       :padding      "2px 2px 1px"
-       :font-size    "18px"
-       :border-width "0 0 1px"
-       :line-height  line-height
-       :border-color "#999"
-       :width        "100%"
-       :outline      "none"
-       :box-shadow "none"}]
-     [:label
-      {:position "absolute"
-       :top 0
-       :left 0
-       :line-height line-height
-       :color (str "var(--pica-input-disabled-label-color, " (get-in col/text [:dark :--disabled-text-color]) ")")
-       :pointer-events "none"}]
-     ["input:focus + label"
-      {:transition "all 0.25s"}]
-     [:label.floating
-      {:top "-20px"
-       :color "var(--pica-input-valid-label-color, var(--pica-input-valid-color, var(--primary-color)))"
-       :font-size "12px"}]
-     [:div.underline
-      {:width "100%"
-       :position "relative"
-       :height "2px"
-       :bottom "1px"
-       :transform-origin "center center"
-       :transform "scale3d(0,1,1)"
-       :padding "0 2px"
-       :background-color "var(--pica-input-underline-color, var(:--disabled-text-color))"}]
-     ["input:not(.validating):valid ~ div.underline"
-      {:transition "all 0.25s"}]
-     ["input:not(.validating):valid:focus ~ div.underline"
-      {:background-color "var(--pica-input-valid-underline-color, var(--pica-input-valid-color, var(--primary-color)))"
-       :transform "none"}]
-     ["input:not(.validating):invalid ~ div.underline"
-      {:background-color "var(--pica-input-invalid-underline-color, var(--pica-input-invalid-color, var(--error-color)))"
-       :transform "none"}]
-     [:div.error
-      {:font-size "14px";
-       :position "relative"
-       :float "left"
-       :top "4px"
-       :width "100%"
-       :white-space "nowrap"
-       :overflow "hidden"
-       :text-overflow "ellipsis"
-       :color "var(--pica-input-error-color, var(--error-color))"}]
-     [:div.error:empty
-      {:display "none"}]]]
+    {:display "block"
+     :position "relative"}
+    [:input
+     {:background   "none"
+      :padding      "2px 2px 1px"
+      :font-size    "18px"
+      :border-width "0 0 1px"
+      :line-height  line-height
+      :border-color "#999"
+      :width        "100%"
+      :outline      "none"
+      :box-shadow "none"}]
+    [:label
+     {:position "absolute"
+      :top 0
+      :left 0
+      :line-height line-height
+      :color (str "var(--pica-input-disabled-label-color, " (get-in col/text [:dark :--disabled-text-color]) ")")
+      :pointer-events "none"}]
+    ["input:focus + label"
+     {:transition "all 0.25s"}]
+    [:label.floating
+     {:color "var(--pica-input-valid-label-color, var(--pica-input-valid-color, var(--primary-color)))"
+      :font-size "12px"
+      :top "-12px"}]
+    [:.underline
+     {:width "100%"
+      :position "relative"
+      :height "2px"
+      :bottom "1px"
+      :transform-origin "center center"
+      :transform "scale3d(0,1,1)"
+      :padding "0 2px"
+      :background-color "var(--pica-input-underline-color, var(:--disabled-text-color))"}]
+    ["input:not(.validating):valid ~ div.underline"
+     {:transition "all 0.25s"}]
+    ["input:not(.validating):valid:focus ~ div.underline"
+     {:background-color "var(--pica-input-valid-underline-color, var(--pica-input-valid-color, var(--primary-color)))"
+      :transform "none"}]
+    ["input:not(.validating):invalid ~ div.underline"
+     {:background-color "var(--pica-input-invalid-underline-color, var(--pica-input-invalid-color, var(--error-color)))"
+      :transform "none"}]
+    [:.error
+     {:font-size "14px";
+      :position "relative"
+      :float "left"
+      :top "4px"
+      :width "100%"
+      :white-space "nowrap"
+      :overflow "hidden"
+      :text-overflow "ellipsis"
+      :color "var(--pica-input-error-color, var(--error-color))"}]
+    [:.error:empty
+     {:display "none"}]]
    [:pica-checkbox
     {:display "inline-block"
      :height "18px"}
@@ -236,10 +235,9 @@
 
 #?(:cljs
 (defcustomelement pica-input
-  "Some DOC"
   {comp/material-ref {:text-field ["http://www.google.com/design/spec/components/text-fields.html"
                                    "http://www.google.com/design/spec/patterns/errors.html"]}}
-  :mixins [comp/reconciliate]
+  :mixins [comp/component]
   :on-attached (fn [el]
                  (let [iel (.querySelector el "input")
                        lel (.querySelector el "label")
@@ -266,7 +264,7 @@
   :document
   (fn [el {:keys [id validator submitter label value input-attributes]}]
     (let [by (if-not (empty? id) (dia/id->input-id id))]
-      [:div
+      [:host
        [:input ^:attrs (merge
                          (if id {:id by})
                          (if (or validator submitter)
@@ -283,10 +281,10 @@
 #?(:cljs
 (defcustomelement pica-checkbox
   {comp/material-ref {:checkbox ["http://www.google.com/design/spec/components/selection-controls.html#selection-controls-checkbox"]}}
-  :mixins [comp/reconciliate]
+  :mixins [comp/component]
   :document
   (fn [_ {:keys [checked label]}]
-    [:div
+    [:host
      [:input {:type "checkbox" :checked checked}]
      [:label label]])
   :properties {:checked false :label ""}))
@@ -294,10 +292,10 @@
 #?(:cljs
 (defcustomelement pica-switch
   {comp/material-ref {:switch ["http://www.google.com/design/spec/components/selection-controls.html#selection-controls-switch"]}}
-  :mixins [comp/reconciliate]
+  :mixins [comp/component]
   :document
   (fn [_ {:keys [checked label]}]
-    [:div
+    [:host
      [:input {:type "checkbox" :checked checked}]
      [:span
       [:div]]

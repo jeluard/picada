@@ -40,9 +40,9 @@
 #?(:cljs
 (defn show
   [actions]
-  (let [[mel _] (h/create [:pica-menu {:actions actions}])]
+  (let [mel (h/create [:pica-menu {:actions actions}])]
     (.appendChild js/document.body mel)
-    (anim/show mel #(.addEventListener js/document.body "click" click-outside-listener true)))))
+    (comp/show mel #(.addEventListener js/document.body "click" click-outside-listener true)))))
 
 #?(:cljs
 (defn location-from-component
@@ -68,11 +68,12 @@
 #?(:cljs
 (defcustomelement pica-menu
   {comp/material-ref {:menu "http://www.google.com/design/spec/components/menus.html"}}
-  :mixins [comp/reconciliate anim/animation-lifecycle]
+  :mixins [comp/component]
   :document
   (fn [_ {:keys [actions]}]
-    [:ul
-     (for [m actions]
-       [:pica-item  {:action (comp/wrap-action m (fn [evt f] (f) (dismiss (.closest (.-target evt) "pica-menu"))))}])])
+    [:host
+     [:ul
+      (for [m actions]
+       [:pica-item  {:action (comp/wrap-action m (fn [evt f] (f) (dismiss (.closest (.-target evt) "pica-menu"))))}])]])
   :properties {:actions nil}
   :methods {:dismiss dismiss}))

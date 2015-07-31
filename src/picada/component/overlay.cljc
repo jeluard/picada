@@ -1,5 +1,6 @@
 (ns picada.component.overlay
-  #?(:cljs (:require-macros [lucuma.core :refer [defcustomelement]])))
+  #?@(:cljs [(:require [picada.component :as comp]
+                       [lucuma.core :as l :refer-macros [defcustomelement]])]))
 
 (def styles
   [:pica-overlay
@@ -9,20 +10,11 @@
     :width "100vw"
     :height "100vh"
     :background-color "var(--pica-overlay-background-color, currentColor)"
-    :opacity 0
-    :transition "opacity 0.2s"
+    :opacity 0.6
     :z-index 9}                                             ; TODO should be bellow dialog
-   ["&[visible]"
-    {:opacity 0.6}]])
-
-#?(:cljs
-(defn dismiss
-  [& [el]]
-  (if-let [oel (.querySelector (or el js/document) "pica-overlay")]
-    (.remove oel))))
-
-; TODO switch to picada.animation
+    ])
 
 #?(:cljs
 (defcustomelement pica-overlay
-  :properties {:visible false}))
+  :mixins [comp/component]
+  :properties {:animation-entry :overlay-entry :animation-exit :overlay-exit}))

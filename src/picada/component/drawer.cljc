@@ -49,7 +49,7 @@
 #?(:cljs
 (defn hide
   [el]
-  (anim/hide el #(.removeEventListener js/document.body "click" click-outside-listener true))))
+  (comp/hide el #(.removeEventListener js/document.body "click" click-outside-listener true))))
 
 #?(:cljs
 (defn items
@@ -62,7 +62,7 @@
 #?(:cljs
 (defn create
   [c]
-  (let [[del _] (h/create [:pica-drawer c])]
+  (let [del (h/create [:pica-drawer c])]
     (.appendChild js/document.body del)
     del)))
 
@@ -70,11 +70,12 @@
 (defn show
   [c]
   (let [del (or (.querySelector js/document "pica-drawer") (create c))]
-    (anim/show del #(.addEventListener js/document.body "click" click-outside-listener true)))))
+    (comp/show del #(.addEventListener js/document.body "click" click-outside-listener true)))))
 
 #?(:cljs
 (defcustomelement pica-drawer
   {comp/material-ref {:navigation-drawer "http://www.google.com/design/spec/patterns/navigation-drawer.html"}}
-  :mixins [anim/animation-lifecycle]
+  :mixins [comp/component]
+  :hideable? true
   :properties {:animation-entry :left-entry :animation-exit :left-exit}
   :methods {:hide hide}))

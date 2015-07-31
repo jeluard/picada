@@ -18,7 +18,7 @@
 (defn all
   [kp ka]
   [["@custom-media --desktop (min-width: 600px);" {}]
-   ["@custom-selector --pica-button pica-button, pica-fab, pica-icon-button;" {}]
+   ["@custom-selector :--pica-button pica-button, pica-fab, pica-icon-button;" {}]
    [":root" (st/create-theme kp ka)]
    [:body
     {:font-family "RobotoDraft, Arial"}]

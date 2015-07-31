@@ -18,8 +18,8 @@
     <pica-fab icon="reply" mini></pica-fab>
     <pica-fab icon="reply"></pica-fab>
     <pica-fab icon="reply" disabled></pica-fab>
-    <pica-fab icon="reply" busy></pica-fab>
-    <pica-fab icon="reply" mini busy></pica-fab>
+    <!--pica-fab icon="reply" busy></pica-fab>
+    <pica-fab icon="reply" mini busy></pica-fab-->
     <pica-fab id="fab-with-action" icon="reply"></pica-fab>
     <script>
       var el = document.getElementById("fab-with-action");
@@ -39,7 +39,7 @@
         }
       };
     </script>
-    <pica-fab icon="reply" animate-on-attached="true" animation-entry="delayed-entry"></pica-fab>
+    <pica-fab icon="reply" animation-entry="delayed-entry"></pica-fab>
   </section>
   <section>
     <h2>Buttons</h2>
@@ -67,16 +67,15 @@
     <button onclick="picada.main.open_modal_alert()">Open a modal alert</button>
     <button onclick="picada.main.open_dialog_form()">Open a form dialog</button>
     <button onclick="picada.main.open_dialog_input()">Open an input dialog</button>
-    <button onclick="picada.main.open_dialog_multi_form()">Open a multi-form dialog</button>
   </section>
   <section>
     <h2>Menu</h2>
     <button onclick="picada.main.open_menu(event);">Open a menu</button>
   </section>
-  <section>
+  <!--section>
     <h2>Spinner</h2>
     <pica-spinner style="color: blue;" value="30"></pica-spinner>
     <pica-spinner></pica-spinner>
-  </section>
+  </section-->
 </body>
 </html>
