@@ -1,19 +1,20 @@
 (set-env!
  :source-paths  #{"src"}
  :dependencies '[[org.clojure/clojure           "1.7.0"]
-                 [adzerk/boot-cljs              "0.0-3269-2" :scope "test"]
+                 [adzerk/boot-cljs              "0.0-3308-0" :scope "test"]
                  [org.martinklepsch/boot-garden "1.2.5-5"    :scope "test"]
                  [adzerk/boot-reload            "0.2.6"      :scope "test"]
                  [jeluard/boot-notify           "0.2.0"      :scope "test"]
                  [adzerk/bootlaces              "0.1.11"     :scope "test"]
 
-                 [org.clojure/clojurescript "0.0-3308" :classifier "aot"]
+                 [org.clojure/clojurescript "1.7.28" :classifier "aot"]
                  [lucuma "0.5.0-SNAPSHOT"]
                  [hipo "0.5.0-SNAPSHOT"]
                  [garden "1.2.5"]])
 
 (def dev-dependencies '[[cljsjs/document-register-element "0.4.3-0"]
-                        [cljsjs/dom4 "1.4.5-0"]])
+                        [cljsjs/dom4 "1.4.5-0"]
+                        [cljsjs/web-animations-js "2.1.2-0"]])
 
 (require
  '[adzerk.boot-cljs              :refer [cljs]]
@@ -52,6 +53,12 @@
           (boot.core/add-resource tmp-dir)
           boot.core/commit!))))
 
+(deftask css
+  []
+  (comp
+    (garden :styles-var 'picada.styles/all)
+    (cssnext :files [#"main.css"])))
+
 (deftask dev
   []
   (merge-env! :dependencies dev-dependencies)
@@ -60,7 +67,14 @@
     (watch :verbose true)
     (notify)
     (reload)
-    (garden :styles-var 'picada.styles/all)
-    (cssnext :files [#"main.css"])
+    (css)
     (cljs :main "test-main" :compiler-options {:asset-path "target/out" })
     (build-jar)))
+
+(deftask prod
+  []
+  (merge-env! :dependencies dev-dependencies)
+  (merge-env! :source-paths #{"src-dev"})
+  (comp
+    (css)
+    (cljs :main "test-main" :optimizations :advanced)))

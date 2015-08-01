@@ -7,7 +7,8 @@
             [picada.component.toolbar :as ptb]
             [hipo.core :as h]
             cljsjs.document-register-element
-            cljsjs.dom4)
+            cljsjs.dom4
+            cljsjs.web-animations-js)
   (:require-macros [picada.doc :refer [doc]]))
 
 (boot/register-all)
