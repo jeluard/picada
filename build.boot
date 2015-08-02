@@ -1,5 +1,6 @@
 (set-env!
  :source-paths  #{"src"}
+ :resources-paths  #{"resources-dev"}
  :dependencies '[[org.clojure/clojure           "1.7.0"]
                  [adzerk/boot-cljs              "0.0-3308-0" :scope "test"]
                  [org.martinklepsch/boot-garden "1.2.5-5"    :scope "test"]
@@ -56,25 +57,26 @@
 (deftask css
   []
   (comp
-    (garden :styles-var 'picada.styles/all)
-    (cssnext :files [#"main.css"])))
+    (garden :styles-var 'picada.styles/all :output-to "picada.css")
+    (cssnext :files [#"picada.css"])))
 
 (deftask dev
   []
   (merge-env! :dependencies dev-dependencies)
   (merge-env! :source-paths #{"src-dev"})
+  (merge-env! :resource-paths #{"resources-dev"})
   (comp
     (watch :verbose true)
     (notify)
     (reload)
     (css)
-    (cljs :main "test-main" :compiler-options {:asset-path "target/out" })
+    (cljs :compiler-options {:asset-path "out" :output-to "picada.js"})
     (build-jar)))
 
-(deftask prod
+(deftask release
   []
   (merge-env! :dependencies dev-dependencies)
   (merge-env! :source-paths #{"src-dev"})
   (comp
     (css)
-    (cljs :main "test-main" :optimizations :advanced)))
+    (cljs :optimizations :advanced :compiler-options {:output-to "picada.js"})))

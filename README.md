@@ -4,13 +4,15 @@
 
 A [Material](http://www.google.com/design/spec/) inspired collection of HTML elements (Custom Elements) implemented in ClojureScript.
 
+[Demo](https://jeluard.github.io/picada/)
+
 Picada depends on [lucuma](https://github.com/jeluard/lucuma) for the Custom Elements creation, [hipo](https://github.com/jeluard/hipo) to facilitate eventual DOM reconciliations and [garden](https://github.com/noprompt/garden) to define elements styles as CSS.
 
 [![Clojars Project](http://clojars.org/picada/latest-version.svg)](http://clojars.org/picada).
 
 ## Usage
 
-Picada elements are native HTML elements and are used as any HTML elements (e.g. <div/>).
+Picada elements are native HTML elements and are used as any HTML elements (e.g. `<div/>`).
 Simply `register` any elements you use or register them all with `picada.bootstrap/register-all`.
 
 ```
@@ -24,7 +26,7 @@ Simply `register` any elements you use or register them all with `picada.bootstr
 (boot/register-all)
 
 ; or individually
-(luc/register but/pica-button ico/pica-icon)
+(luc/register [but/pica-button ico/pica-icon])
 ```
 
 Any webpage using Picada elements must import associated `JS` and `CSS` assets.
