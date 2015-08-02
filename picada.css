@@ -1,0 +1,861 @@
+{
+
+} {
+
+}
+
+body {
+  font-family: RobotoDraft, Arial;
+}
+
+pica-button,
+pica-fab,
+pica-icon-button {
+  position: relative;
+  -webkit-transition: box-shadow, 0.28s, cubic-bezier(0.4, 0, 0.2, 1);
+          transition: box-shadow, 0.28s, cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform-origin: 50% 50%;
+      -ms-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  outline: none;
+}
+
+pica-button pica-icon,
+pica-fab pica-icon,
+pica-icon-button pica-icon {
+  position: absolute;
+}
+
+pica-button[disabled],
+pica-fab[disabled],
+pica-icon-button[disabled] {
+  color: #000000;
+  color: rgba(0, 0, 0, .26);
+  background: #000000;
+  background: rgba(0, 0, 0, .12);
+  cursor: auto;
+  pointer-events: none;
+}
+
+pica-button[busy],
+pica-fab[busy],
+pica-icon-button[busy] {
+  color: #000000;
+  color: rgba(0, 0, 0, .26);
+  background: #000000;
+  background: rgba(0, 0, 0, .12);
+  cursor: auto;
+  pointer-events: none;
+}
+
+pica-button:hover:not([disabled]):not([busy]),
+pica-fab:hover:not([disabled]):not([busy]),
+pica-icon-button:hover:not([disabled]):not([busy]) {
+  cursor: pointer;
+}
+
+pica-button {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 88px;
+  line-height: 36px;
+  height: 36px;
+  margin: 0 8px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  border: 10px;
+  text-transform: uppercase;
+  padding: 0 8px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+pica-button[raised] {
+  border-radius: 3px;
+  z-index: 2;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+pica-button[raised][pressed] {
+  z-index: 8;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 18px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+}
+
+pica-icon-button {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+pica-icon-button pica-icon {
+  width: inherit;
+  height: inherit;
+}
+
+pica-fab {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 56px;
+  height: 56px;
+  padding: 16px;
+  border-radius: 50%;
+  color: rgb(255, 255, 255);
+  background-color: #ff6e40;
+}
+
+pica-fab pica-icon {
+  width: inherit;
+  height: inherit;
+}
+
+pica-fab:not([busy]) {
+  z-index: 6;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.4);
+}
+
+pica-fab &[disabled] &[busy] {
+  color: #eaeaea;
+}
+
+pica-fab[pressed] {
+  z-index: 12;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 18px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+}
+
+pica-fab[mini] {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+
+pica-fab[busy] {
+  position: relative;
+}
+
+pica-fab[busy] pica-spinner {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+}
+
+pica-fab[busy] pica-spinner svg {
+  height: 64px;
+  width: 64px;
+}
+
+pica-fab[mini][busy] pica-spinner svg {
+  height: 48px;
+  width: 48px;
+}
+
+pica-input {
+  display: block;
+  position: relative;
+}
+
+pica-input input {
+  line-height: 29px;
+  box-shadow: none;
+  font-size: 18px;
+  width: 100%;
+  background: none;
+  border-width: 0 0 1px;
+  padding: 2px 2px 1px;
+  outline: none;
+  border-color: #999;
+}
+
+pica-input label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 29px;
+  color: #000000;
+  color: rgba(0, 0, 0, .26);
+  pointer-events: none;
+}
+
+pica-input input:focus + label {
+  -webkit-transition: all 0.25s;
+          transition: all 0.25s;
+}
+
+pica-input label.floating {
+  color: #03a9f4;
+  font-size: 12px;
+  top: -12px;
+}
+
+pica-input .underline {
+  width: 100%;
+  position: relative;
+  height: 2px;
+  bottom: 1px;
+  -webkit-transform-origin: center center;
+      -ms-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-transform: scale3d(0,1,1);
+          transform: scale3d(0,1,1);
+  padding: 0 2px;
+  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, .30);
+}
+
+pica-input input:not(.validating):valid ~ div.underline {
+  -webkit-transition: all 0.25s;
+          transition: all 0.25s;
+}
+
+pica-input input:not(.validating):valid:focus ~ div.underline {
+  background-color: #03a9f4;
+  -webkit-transform: none;
+      -ms-transform: none;
+          transform: none;
+}
+
+pica-input input:not(.validating):invalid ~ div.underline {
+  background-color: #db4437;
+  -webkit-transform: none;
+      -ms-transform: none;
+          transform: none;
+}
+
+pica-input .error {
+  text-overflow: ellipsis;
+  color: #db4437;
+  white-space: nowrap;
+  font-size: 14px;
+  top: 4px;
+  float: left;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+pica-input .error:empty {
+  display: none;
+}
+
+pica-checkbox {
+  display: inline-block;
+  height: 18px;
+}
+
+pica-checkbox input {
+  position: relative;
+  vertical-align: text-bottom;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+pica-checkbox input:before {
+  box-sizing: border-box;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+  content: '';
+  background-color: white;
+  width: 100%;
+  display: block;
+  border: 2px solid;
+  border-radius: 2px;
+  height: 100%;
+}
+
+pica-checkbox input:checked:before {
+  background-color: #ff6e40;
+  border-color: #ff6e40;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+}
+
+pica-checkbox input:checked:after {
+  box-sizing: border-box;
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+  top: 3px;
+  content: '';
+  width: 5px;
+  position: absolute;
+  border: 2px solid white;
+  height: 10px;
+  left: 7px;
+  border-top: none;
+  border-left: none;
+}
+
+pica-checkbox input:hover {
+  cursor: pointer;
+}
+
+pica-checkbox label {
+  padding-left: 8px;
+}
+
+pica-switch {
+  display: inline-block;
+}
+
+pica-switch input {
+  opacity: 0;
+  position: absolute;
+  width: 35px;
+  margin: 0;
+  height: 15px;
+  outline: none;
+}
+
+pica-switch input:hover {
+  pointer: cursor;
+}
+
+pica-switch span {
+  background-color: grey;
+  width: 35px;
+  outline: none;
+  display: inline-block;
+  position: relative;
+  border-radius: 15px;
+  pointer-events: none;
+  height: 15px;
+  left: 0;
+}
+
+pica-switch span div {
+  width: 20px;
+  top: -3px;
+  height: 20px;
+  will-change: transform;
+  -webkit-transform: none;
+      -ms-transform: none;
+          transform: none;
+  outline: none;
+  position: absolute;
+  content: '';
+  background-color: white;
+  border-radius: 50%;
+  display: block;
+  -webkit-transition: all .08s;
+          transition: all .08s;
+  left: 0;
+  z-index: 1;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+
+pica-switch input:checked + span {
+  background-color: #FF6E40;
+  background-color: rgba(255, 110, 64, 0.5);
+}
+
+pica-switch input:checked + span div {
+  background-color: #ff6e40;
+  -webkit-transform: translate(20px);
+      -ms-transform: translate(20px);
+          transform: translate(20px);
+}
+
+pica-switch label {
+  padding-left: 8px;
+  outline: none;
+}
+
+pica-dialog {
+  width: 100vw;
+  top: 0;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100vh;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  outline: none;
+  position: fixed;
+  z-index: 24;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  left: 0;
+}
+
+pica-dialog > div, pica-dialog > form {
+  background: white;
+  outline: none;
+  min-width: 200px;
+  max-width: 400px;
+  -webkit-transition: box-shadow, 0.28s, cubic-bezier(0.4, 0, 0.2, 1);
+          transition: box-shadow, 0.28s, cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 24;
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+}
+
+pica-dialog > div > *, pica-dialog > form > * {
+  margin: 0px 24px;
+  padding: 24px 0;
+}
+
+pica-dialog > div h2, pica-dialog > form h2 {
+  line-height: 28px;
+  text-rendering: optimizeLegibility;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 20px;
+  font-weight: 500;
+  overflow: hidden;
+  word-wrap: break-word;
+  padding-bottom: 8px;
+}
+
+pica-dialog > div p, pica-dialog > form p {
+  color: ;;
+}
+
+pica-dialog > div h2 + *, pica-dialog > form h2 + * {
+  margin-top: 20px;
+}
+
+pica-dialog > div h2 + *, pica-dialog > form h2 + * {
+  padding-top: 0;
+}
+
+pica-dialog > div .actions, pica-dialog > form .actions {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin: 0;
+  padding: 8px 8px 8px 24px;
+  color: #03a9f4;
+}
+
+pica-dialog > div .actions pica-button, pica-dialog > form .actions pica-button {
+  min-width: 64px;
+}
+
+pica-dialog > div .actions pica-button.confirm, pica-dialog > form .actions pica-button.confirm {
+  font-weight: bold;
+}
+
+pica-dialog > div .actions pica-button:not([disabled]).discard, pica-dialog > form .actions pica-button:not([disabled]).discard {
+  color: currentColor;
+}
+
+pica-dialog > div .actions pica-button:not([disabled]).confirm, pica-dialog > form .actions pica-button:not([disabled]).confirm {
+  color: currentColor;
+}
+
+pica-drawer {
+  -webkit-transform: translateX(-100%);
+      -ms-transform: translateX(-100%);
+          transform: translateX(-100%);
+  top: 0;
+  background-color: white;
+  width: calc(100vh - 56px);
+  max-width: 320px;
+  display: block;
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  z-index: 16;
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.4);
+}
+
+pica-drawer[visible] {
+  -webkit-transform: none;
+      -ms-transform: none;
+          transform: none;
+}
+
+pica-drawer h2 {
+  font-size: 14px;
+  margin: 0;
+  padding: 16px;
+  color: #000000;
+  color: rgba(0, 0, 0, .54);
+}
+
+pica-drawer ul {
+  padding: 0;
+  margin: 0;
+}
+
+pica-drawer ul + ul {
+  border-top: solid 1px rgba(255, 255, 255, .12);
+}
+
+pica-drawer pica-item {
+  padding: 0 16px;
+}
+
+@media (min-width: 600px) {
+
+  pica-drawer {
+    width: auto;
+    max-width: 400px;
+  }
+
+}
+
+pica-icon {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+pica-icon i {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+pica-item {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 48px;
+}
+
+pica-item:hover:not([disabled]) {
+  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.03);
+  cursor: pointer;
+}
+
+pica-item[disabled] {
+  color: #000000;
+  color: rgba(0, 0, 0, .26);
+  background: #000000;
+  background: rgba(0, 0, 0, .12);
+  cursor: auto;
+  pointer-events: none;
+}
+
+pica-item li {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+  list-style-type: none;
+}
+
+pica-item li pica-icon {
+  margin-right: 24px;
+}
+
+pica-menu {
+  display: block;
+  position: fixed;
+  padding: 8px 0;
+  background-color: white;
+  min-width: 112px;
+  max-width: 280px;
+  z-index: 8;
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 18px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4);
+}
+
+pica-menu h2 {
+  font-size: 14px;
+  margin: 0;
+  padding: 16px;
+  color: #000000;
+  color: rgba(0, 0, 0, .54);
+}
+
+pica-menu ul {
+  padding: 0;
+  margin: 0;
+}
+
+pica-menu ul pica-item {
+  padding: 0 16px;
+}
+
+pica-menu ul + ul {
+  border-top: solid black;
+}
+
+@media (min-width: 600px) {
+
+  pica-menu & ul {
+    padding: 0 24px;
+  }
+
+}
+
+pica-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: currentColor;
+  opacity: 0.6;
+  z-index: 9;
+}
+
+pica-snackbar {
+  width: 100vw;
+  padding: 16px 24px 12px;
+  position: fixed;
+  min-height: 48px;
+  font-size: 14px;
+  box-sizing: border-box;
+  bottom: 0;
+  -webkit-transition: box-shadow, 0.28s, cubic-bezier(0.4, 0, 0.2, 1);
+          transition: box-shadow, 0.28s, cubic-bezier(0.4, 0, 0.2, 1);
+  background: #323232;
+  max-height: 80px;
+  color: #FFFFFF;
+  color: rgba(255, 255, 255, .7);
+  left: 0;
+  z-index: 6;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.4);
+}
+
+pica-snackbar pica-button {
+  float: right;
+  height: auto;
+  padding-left: 24px;
+  margin: 0;
+  line-height: initial;
+  color: #ff6e40;
+}
+
+@media (min-width: 600px) {
+
+  pica-snackbar {
+    bottom: 12px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+    width: initial;
+    min-width: 288px;
+    max-width: 568px;
+    border-radius: 2px;
+  }
+
+}
+
+@-webkit-keyframes color {
+
+100%, 0% {
+    stroke: red;
+  }
+  
+40% {
+    stroke: blue;
+  }
+  
+66% {
+    stroke: green;
+  }
+  
+80%, 90% {
+    stroke: yellow;
+  }
+
+}
+
+@keyframes color {
+
+100%, 0% {
+    stroke: red;
+  }
+  
+40% {
+    stroke: blue;
+  }
+  
+66% {
+    stroke: green;
+  }
+  
+80%, 90% {
+    stroke: yellow;
+  }
+
+}
+
+@-webkit-keyframes rotate {
+
+100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+
+}
+
+@keyframes rotate {
+
+100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+
+}
+
+@-webkit-keyframes dash {
+
+0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0;
+  }
+  
+50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35;
+  }
+  
+100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124;
+  }
+
+}
+
+@keyframes dash {
+
+0% {
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0;
+  }
+  
+50% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35;
+  }
+  
+100% {
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124;
+  }
+
+}
+
+pica-spinner {
+  display: inline-block;
+}
+
+pica-spinner svg {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+pica-spinner svg circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 1,200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+}
+
+pica-spinner:not([value]) svg {
+  -webkit-animation: rotate 2s linear infinite;
+          animation: rotate 2s linear infinite;
+}
+
+pica-spinner:not([value]) svg circle {
+  -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+          animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+}
+
+pica-toolbar {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 56px;
+  color: #FFFFFF;
+  color: rgba(255, 255, 255, .7);
+}
+
+pica-toolbar[primary] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+pica-toolbar:not([transparent]) {
+  background: #03a9f4;
+  z-index: 4;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+}
+
+pica-toolbar[primary]:not([transparent]) {
+  z-index: 15;
+}
+
+pica-toolbar h2 {
+  margin: 0;
+  padding-left: 24px;
+  color: rgb(255, 255, 255);
+}
+
+pica-toolbar .flex {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+pica-toolbar .right-actions {
+  cursor: pointer;
+}
+
+@media (min-width: 600px) {
+
+  pica-toolbar {
+    height: 64px;
+  }
+  
+  pica-toolbar h2 {
+    padding-left: 32px;
+  }
+
+}
