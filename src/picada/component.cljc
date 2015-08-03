@@ -1,13 +1,12 @@
 (ns picada.component
-  (:require [picada.animation :as anim]
-            [hipo.core :as h]
-            [hipo.interpreter :as hi]
-            [lucuma.core :as l]))
+  #?(:cljs
+     (:require [picada.animation :as anim]
+               [hipo.core :as h]
+               [hipo.interpreter :as hi]
+               [lucuma.core :as l])))
 
-(def material-ref :picada/material-ref)
-
-(defn wrap-listener [f wf] (fn [evt] (f evt wf)))
-(defn wrap-action [m f] (merge {:fn (wrap-listener f (:fn m))} (if-let [s (:name m)] {:name s}) (if-let [s (:icon m)] {:icon s})))
+#?(:cljs (defn wrap-listener [f wf] (fn [evt] (f evt wf))))
+#?(:cljs (defn wrap-action [m f] (merge {:fn (wrap-listener f (:fn m))} (if-let [s (:name m)] {:name s}) (if-let [s (:icon m)] {:icon s}))))
 
 (def ^:private changes (atom []))
 (def ^:private raf-scheduled (atom false))
@@ -18,6 +17,7 @@
   [h t]
   (assoc h 0 t))
 
+#?(:cljs
 (defn perform-reconciliation
   [hm]
   (reset! raf-scheduled false)
@@ -25,19 +25,22 @@
     (let [h ((:document m) el (l/get-properties el))]
       (h/reconciliate! el (aget el hiccup-property) h hm)
       (aset el hiccup-property h))
-    (swap! changes subvec 1)))
+    (swap! changes subvec 1))))
 
+#?(:cljs
 (defn schedule-reconciliation-if-needed!
   "Schedule reconciliation using rAF if no call is scheduled yet"
   [hm]
   (if (compare-and-set! raf-scheduled false true)
-    (.requestAnimationFrame js/window #(perform-reconciliation hm))))
+    (.requestAnimationFrame js/window #(perform-reconciliation hm)))))
 
+#?(:cljs
 (defn enqueue-changes
   [el m hm]
   (swap! changes conj {:el el :m m})
-  (schedule-reconciliation-if-needed! hm))
+  (schedule-reconciliation-if-needed! hm)))
 
+#?(:cljs
 (defn reconciliate
   [{:keys [document] :as m} hm] ; {:interceptors [(hipo.interceptor/LogInterceptor. false)]}
    (assert (not (nil? document)) (str "No :document provided for " (:name m)))
@@ -48,7 +51,7 @@
                                 ; Do not enqueue but synchronously reconciliate so that the element content is accurate at the end of :on-created
                                 (h/reconciliate! el default-hiccup h hm)
                                 (aset el hiccup-property h)))
-                :on-property-changed (fn [el s] (enqueue-changes el m hm))}))
+                :on-property-changed (fn [el s] (enqueue-changes el m hm))})))
 
 ; TODO idea
 ; document gets element and a map that can be augmented
@@ -70,17 +73,20 @@
 ; => 1. reconciliation is performed, updating the value of action property
 ;    2. :on-property-changed is called triggering a second reconciliation of the same element (but with different args) that update the button child
 
+#?(:cljs
 (defn show
   ([el] (show el nil))
   ([el f]
-   (anim/animate-property el :animation-entry #(do (if f (f)) (set! (.-visible el) true)))))
+   (anim/animate-property el :animation-entry #(do (if f (f)) (set! (.-visible el) true))))))
 
+#?(:cljs
 (defn hide
   ([el] (hide el nil))
   ([el f]
    (set! (.-visible el) false)
-   (anim/animate-property el :animation-exit #(if f (f)))))
+   (anim/animate-property el :animation-exit #(if f (f))))))
 
+#?(:cljs
 (defn hideable
   [show?]
   {:on-attached
@@ -88,8 +94,9 @@
      (if (:show-on-attached (l/get-properties el))
        (show el)))
    :properties {:visible false :show-on-attached show?}
-   :methods {:show show :hide hide}})
+   :methods {:show show :hide hide}}))
 
+#?(:cljs
 (defn component
   [m]
   (assoc m :mixins
@@ -97,7 +104,13 @@
             (if (:hideable? m)
               (hideable (:show-on-attached? m)))
             (if (contains? m :document)
-              reconciliate)]))
+              reconciliate)])))
+
+#?(:clj
+(defmacro defcomponent
+  [n & kvs]
+  (let [m (apply hash-map kvs)]
+    (lucuma.core/define-specification n `(update-in ~m [:mixins] conj picada.component/component)))))
 
 (comment
 ;TODO perf

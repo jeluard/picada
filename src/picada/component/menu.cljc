@@ -10,7 +10,7 @@
                  [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]]
                  [hipo.core :as h])
-       (:require-macros [lucuma.core :refer [defcustomelement]])]))
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def styles
   [:pica-menu
@@ -66,14 +66,14 @@
   (anim/dismiss el #(.removeEventListener js/document.body "click" click-outside-listener true))))
 
 #?(:cljs
-(defcustomelement pica-menu
-  {comp/material-ref {:menu "http://www.google.com/design/spec/components/menus.html"}}
-  :mixins [comp/component]
+(defcomponent pica-menu
+  :material-ref {:menu "http://www.google.com/design/spec/components/menus.html"}
   :document
   (fn [_ {:keys [actions]}]
     [:host
      [:ul
       (for [m actions]
        [:pica-item  {:action (comp/wrap-action m (fn [evt f] (f) (dismiss (.closest (.-target evt) "pica-menu"))))}])]])
+  :style styles
   :properties {:actions nil}
   :methods {:dismiss dismiss}))

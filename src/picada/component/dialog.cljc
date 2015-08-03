@@ -8,7 +8,8 @@
                  [picada.component :as comp]
                  [picada.style :as st]
                  [hipo.core :as h]
-                 [lucuma.core :as l :refer-macros [defcustomelement]])]))
+                 [lucuma.core :as l])
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def styles
   [:pica-dialog
@@ -182,9 +183,8 @@
      (set! (.-disabled bel) (not v))))))
 
 #?(:cljs
-(defcustomelement pica-dialog
-  {comp/material-ref {:dialog ""}}
-  :mixins [comp/component]
+(defcomponent pica-dialog
+  :material-ref {:dialog ""}
   :on-created #(do (.setAttribute % "tabindex" 1) (.setAttribute % "role" "dialog"))
   :on-attached
   (fn [el]
@@ -198,4 +198,5 @@
         (doseq [cel (array-seq (.-elements fel))]
           (.addEventListener cel "change" #(adjust-button-validity! fel bel))
           (.addEventListener cel "input" #(adjust-button-validity! fel bel))))))
+  :style styles
   :methods {:dismiss dismiss}))

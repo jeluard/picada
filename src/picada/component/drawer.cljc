@@ -13,7 +13,7 @@
                  [hipo.core :as h]
                  [hipo.hiccup :as hhic]
                  [garden.stylesheet :refer [at-media]])
-       (:require-macros [lucuma.core :refer [defcustomelement]])]))
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def styles
   [:pica-drawer
@@ -73,9 +73,9 @@
     (comp/show del #(.addEventListener js/document.body "click" click-outside-listener true)))))
 
 #?(:cljs
-(defcustomelement pica-drawer
-  {comp/material-ref {:navigation-drawer "http://www.google.com/design/spec/patterns/navigation-drawer.html"}}
-  :mixins [comp/component]
+(defcomponent pica-drawer
+  :material-ref {:navigation-drawer "http://www.google.com/design/spec/patterns/navigation-drawer.html"}
   :hideable? true
+  :style styles
   :properties {:animation-entry :left-entry :animation-exit :left-exit}
   :methods {:hide hide}))

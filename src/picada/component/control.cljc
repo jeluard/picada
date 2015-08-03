@@ -2,12 +2,11 @@
   #?@(:clj [(:require [picada.color :as col]
                       [picada.style :as sty])]
       :cljs
-      [(:require [picada.component :as comp]
-                 [picada.component.dialog :as dia]
+      [(:require [picada.component.dialog :as dia]
                  [picada.color :as col]
                  [picada.style :as sty]
                  [lucuma.core :as l])
-       (:require-macros [lucuma.core :refer [defcustomelement]])]))
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def ^:private line-height "29px")
 
@@ -234,10 +233,9 @@
     (input-listener t validating?))))
 
 #?(:cljs
-(defcustomelement pica-input
-  {comp/material-ref {:text-field ["http://www.google.com/design/spec/components/text-fields.html"
-                                   "http://www.google.com/design/spec/patterns/errors.html"]}}
-  :mixins [comp/component]
+(defcomponent pica-input
+  :material-ref {:text-field ["http://www.google.com/design/spec/components/text-fields.html"
+                                   "http://www.google.com/design/spec/patterns/errors.html"]}
   :on-attached (fn [el]
                  (let [iel (.querySelector el "input")
                        lel (.querySelector el "label")
@@ -274,25 +272,25 @@
        [:label ^:attrs (merge (if by {:for by})) label]
        [:div.underline]
        [:div.error]]))
+  :style styles
   :properties {:id {:default "" :override? true} :value "" :input-attributes nil :validator nil :submitter nil :label "" :error-mapping nil}))
 
 ; TODO  checked must reflect input value
 
 #?(:cljs
-(defcustomelement pica-checkbox
-  {comp/material-ref {:checkbox ["http://www.google.com/design/spec/components/selection-controls.html#selection-controls-checkbox"]}}
-  :mixins [comp/component]
+(defcomponent pica-checkbox
+  :material-ref {:checkbox ["http://www.google.com/design/spec/components/selection-controls.html#selection-controls-checkbox"]}
   :document
   (fn [_ {:keys [checked label]}]
     [:host
      [:input {:type "checkbox" :checked checked}]
      [:label label]])
+  :style styles
   :properties {:checked false :label ""}))
 
 #?(:cljs
-(defcustomelement pica-switch
-  {comp/material-ref {:switch ["http://www.google.com/design/spec/components/selection-controls.html#selection-controls-switch"]}}
-  :mixins [comp/component]
+(defcomponent pica-switch
+  :material-ref {:switch ["http://www.google.com/design/spec/components/selection-controls.html#selection-controls-switch"]}
   :document
   (fn [_ {:keys [checked label]}]
     [:host
@@ -300,4 +298,5 @@
      [:span
       [:div]]
      [:label label]])
+  :style styles
   :properties {:checked false :label ""}))

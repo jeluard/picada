@@ -3,11 +3,11 @@
                       [picada.style :as st])]
       :cljs
       [(:require [picada.animation :as anim]
-                 [picada.component :as comp]
                  [picada.color :as col]
+                 [picada.component :as comp]
                  [picada.style :as st]
                  [lucuma.core :as l])
-       (:require-macros [lucuma.core :refer [defcustomelement]])]))
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def display
   {:display "inline-block"
@@ -97,16 +97,17 @@
 
 #?(:cljs
 (def pica-button-base
-  {:properties {:action nil :disabled false :pressed false}
+  {:stryle styles
+   :properties {:action nil :disabled false :pressed false}
    :on-attached (fn [el]
                   (.addEventListener el "mousedown" #(when-not (.-pressed el) (set! (.-pressed el) true) ))
                   (.addEventListener el "mouseleave" #(if (.-pressed el) (set! (.-pressed el) false)))
                   (.addEventListener el "mouseup" #(set! (.-pressed el) false)))}))
 
 #?(:cljs
-(defcustomelement pica-button
-  {:picada/material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}}
-  :mixins [pica-button-base comp/component]
+(defcomponent pica-button
+  :material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}
+  :mixins [pica-button-base]
   :document
   (fn [_ {:keys [action disabled]}]
     [:host {:tabindex (if disabled -1 0) :on-click (:fn action)}
@@ -122,9 +123,9 @@
       (get-in m [:action :icon])))))
 
 #?(:cljs
-(defcustomelement pica-icon-button
-  {:picada/material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}}
-  :mixins [pica-button-base comp/component]
+(defcomponent pica-icon-button
+  :material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}
+  :mixins [pica-button-base ]
   :document
   (fn [_ {:keys [action disabled] :as m}]
     [:host {:tabindex (if disabled -1 0) :on-click (:fn action)}
@@ -132,9 +133,9 @@
   :properties {:icon ""}))
 
 #?(:cljs
-(defcustomelement pica-fab
-  {comp/material-ref {:button "http://www.google.com/design/spec/components/buttons-floating-action-button.html"}}
-  :mixins [pica-button-base comp/component]
+(defcomponent pica-fab
+  :material-ref {:button "http://www.google.com/design/spec/components/buttons-floating-action-button.html"}
+  :mixins [pica-button-base]
   :document
   (fn [el {:keys [action disabled mini busy animation-icon-entry animation-icon-exit] :as m}]
     [:host ^:attrs (merge {:tabindex (if disabled -1 0)}

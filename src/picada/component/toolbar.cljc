@@ -3,11 +3,10 @@
       [(:require [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])]
       :cljs
-      [(:require [picada.component :as comp]
-                 [picada.component.drawer :as dra]
+      [(:require [picada.component.drawer :as dra]
                  [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])
-       (:require-macros [lucuma.core :refer [defcustomelement]])]))
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def styles
   [:pica-toolbar
@@ -42,10 +41,9 @@
         {:padding-left "32px"}]))])
 
 #?(:cljs
-(defcustomelement pica-toolbar
-  {comp/material-ref {:toolbar "http://www.google.com/design/spec/components/toolbars.html"
-                      :structure "http://www.google.com/design/spec/layout/structure.html#structure-toolbars"}}
-  :mixins [comp/component]
+(defcomponent pica-toolbar
+  :material-ref {:toolbar "http://www.google.com/design/spec/components/toolbars.html"
+                 :structure "http://www.google.com/design/spec/layout/structure.html#structure-toolbars"}
   :document
   (fn [_ {:keys [title left-actions right-actions]}]
     [:host
@@ -57,6 +55,7 @@
      [:div {:class "right-actions"}
       (for [m right-actions]
         [:pica-icon-button {:action m}])]])
+  :style styles
   :properties {:primary false :title {:default "" :override? true} :left-actions nil :right-actions nil :transparent false}))
 
 #?(:cljs

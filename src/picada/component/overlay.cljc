@@ -1,6 +1,5 @@
 (ns picada.component.overlay
-  #?@(:cljs [(:require [picada.component :as comp]
-                       [lucuma.core :as l :refer-macros [defcustomelement]])]))
+  #?(:cljs (:require-macros [picada.component :refer [defcomponent]])))
 
 (def styles
   [:pica-overlay
@@ -15,6 +14,6 @@
     ])
 
 #?(:cljs
-(defcustomelement pica-overlay
-  :mixins [comp/component]
+(defcomponent pica-overlay
+  :style styles
   :properties {:animation-entry :overlay-entry :animation-exit :overlay-exit}))

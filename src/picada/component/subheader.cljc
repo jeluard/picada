@@ -1,6 +1,5 @@
 (ns picada.component.subheader
-  #?(:clj (:require [picada.color :as col])
-     :cljs (:require [picada.color :as col])))
+  (:require [picada.color :as col]))
 
 ; http://www.google.com/design/spec/components/subheaders.html
 ; Used with List, Grid and Menu

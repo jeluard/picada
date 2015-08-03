@@ -1,11 +1,10 @@
 (ns picada.component.spinner
   #?(:clj (:require [garden.def :refer [defkeyframes]]))
   #?@(:cljs
-      [(:require [picada.component :as comp]
-                 [garden.types :as gt] ; if removed garden won't be loaded
+      [(:require [garden.types :as gt] ; if removed garden won't be loaded
                  [hipo.core :as h]
                  [lucuma.core :as l])
-       (:require-macros [lucuma.core :refer [defcustomelement]]
+       (:require-macros [picada.component :refer [defcomponent]]
                         [garden.def :refer [defkeyframes]])]))
 
 (defkeyframes color
@@ -69,9 +68,8 @@
   (set! (.. (.querySelector el "circle") -style -strokeDashoffset) (* (/ (* r js/Math.PI 2) 100) (- 100 v)))))
 
 #?(:cljs
-(defcustomelement pica-spinner
-  {:picada/material-ref {:button "http://www.google.com/design/spec/components/progress-activity.html"}}
-  :mixins [comp/component]
+(defcomponent pica-spinner
+  :material-ref {:button "http://www.google.com/design/spec/components/progress-activity.html"}
   :on-attached (fn [el]
                 (set-dasharray! el 20)
                  (if-let [value (:value (l/get-properties el))]
@@ -86,4 +84,5 @@
      [:svg {:width "100px" :height "100px"}
       [:circle ^:attrs (merge {:cx 50 :cy 50 :r 20}
                              (if attrs {:cx (:c attrs) :cy (:c attrs) :r (:r attrs)}))]]])
+  :style styles
   :properties {:value {:type :number :default nil} :attrs nil}))

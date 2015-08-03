@@ -2,7 +2,8 @@
   #?@(:cljs
       [(:require [picada.animation :as anim]
                  [picada.component :as comp]
-                 [lucuma.core :as l :refer-macros [defcustomelement]])]))
+                 [lucuma.core :as l])
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def styles
   [:pica-icon
@@ -16,8 +17,7 @@
     {:user-select "none"}]])
 
 #?(:cljs
-(defcustomelement pica-icon
-  :mixins [comp/component]
+(defcomponent pica-icon
   :on-property-changed
   (fn [el s]
     (if-let [m (l/get-change s :icon)]
@@ -34,4 +34,5 @@
   (fn [_ {:keys [icon]}]
     [:host
      [:i {:class "material-icons"} icon]])
+  :style styles
   :properties {:icon "" :animation-icon-entry {:type :keyword :default nil} :animation-icon-exit {:type :keyword :default nil}}))

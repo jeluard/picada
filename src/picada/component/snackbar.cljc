@@ -6,11 +6,10 @@
       :cljs
       [(:require [picada.animation :as anim]
                  [picada.color :as col]
-                 [picada.component :as comp]
                  [picada.style :as st]
                  [hipo.core :as h]
                  [garden.stylesheet :refer [at-media]])
-       (:require-macros [lucuma.core :refer [defcustomelement]])]))
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 ; TODO
 ; integrate with fab
@@ -69,12 +68,12 @@
      (append-snackbar s d a)))))
 
 #?(:cljs
-(defcustomelement pica-snackbar
-  {comp/material-ref {:snackar "http://www.google.com/design/spec/components/snackbars-toasts.html"}}
-  :mixins [comp/component]
+(defcomponent pica-snackbar
+  :material-ref {:snackar "http://www.google.com/design/spec/components/snackbars-toasts.html"}
   :document
   (fn [_ {:keys [action]}]
     [:host
       (if action
         [:pica-button {:action action}])])
+  :style styles
   :properties {:action nil :animation-entry :snackbar-entry :animation-exit :snackbar-exit}))

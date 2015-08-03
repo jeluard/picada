@@ -1,19 +1,16 @@
 # Picada [![License](http://img.shields.io/badge/license-EPL-blue.svg?style=flat)](https://www.eclipse.org/legal/epl-v10.html)
 
-[Usage](#usage) | [Style](#style) | [Animation](#animation) | [Browser support](#browser-support)
+[Usage](#usage) | [Components](#components) | [Theme](#theme) | [Browser support](#browser-support)
 
 A [Material](http://www.google.com/design/spec/) inspired collection of HTML elements (Custom Elements) implemented in ClojureScript.
 
 [Demo](https://jeluard.github.io/picada/)
 
-Picada depends on [lucuma](https://github.com/jeluard/lucuma) for the Custom Elements creation, [hipo](https://github.com/jeluard/hipo) to facilitate eventual DOM reconciliations and [garden](https://github.com/noprompt/garden) to define elements styles as CSS.
-
 [![Clojars Project](http://clojars.org/picada/latest-version.svg)](http://clojars.org/picada).
 
 ## Usage
 
-Picada elements are native HTML elements and are used as any HTML elements (e.g. `<div/>`).
-Simply `register` any elements you use or register them all with `picada.bootstrap/register-all`.
+Picada components are native HTML elements that can be manipulated like any HTML element (e.g. `<div/>`).
 
 ```
 (ns my-app
@@ -26,10 +23,14 @@ Simply `register` any elements you use or register them all with `picada.bootstr
 (boot/register-all)
 
 ; or individually
-(luc/register [but/pica-button ico/pica-icon])
+(luc/register [but/pica-fab ico/pica-icon])
+
+; then use them
+
+(.appendChild (.-body js/document) "pica-fab")
 ```
 
-Any webpage using Picada elements must import associated `JS` and `CSS` assets.
+Any webpage using Picada components must import associated `JS` and `CSS` assets.
 
 ```html
 <!doctype html>
@@ -37,8 +38,8 @@ Any webpage using Picada elements must import associated `JS` and `CSS` assets.
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="target/main.css">
-  <script src="target/main.js"></script>
+  <link rel="stylesheet" href="picada.css">
+  <script src="picada.js"></script>
 </head>
 <body>
   <pica-fab icon="reply" mini></pica-fab>
@@ -46,7 +47,7 @@ Any webpage using Picada elements must import associated `JS` and `CSS` assets.
 </html>
 ```
 
-Some elements are intended to be used programmatically:
+Some components are intended to be used programmatically:
 
 ```clojure
 (ns my-app
@@ -56,7 +57,7 @@ Some elements are intended to be used programmatically:
   (sna/show "Some text" {:name "An action" :fn #(.log js/console "Action clicked")}))
 ```
 
-Also as some elements properties are not exposed as attributes (e.g. complex values such as maps) they must be manipulated programmatically.
+Also as some component properties are not exposed as attributes (e.g. complex values such as maps) they must be manipulated programmatically.
 
 ```html
 <pica-fab id="fab-with-action" icon="reply"></pica-fab>
@@ -66,9 +67,38 @@ Also as some elements properties are not exposed as attributes (e.g. complex val
 </script>
 ```
 
-### Components
+## Components
 
-### Theme
+### Icons
+
+Components using icon rely on [Material Icons](http://www.google.com/design/icons/). Any icon in this catalog can be specified using its id.
+
+```html
+<pica-fab icon="reply" mini></pica-fab>
+<!-- will use http://www.google.com/design/icons/#ic_reply -->
+```
+
+### Create a component
+
+Picada depends on [lucuma](https://github.com/jeluard/lucuma) for the Custom Elements creation, [hipo](https://github.com/jeluard/hipo) to facilitate eventual DOM reconciliations and [garden](https://github.com/noprompt/garden) to define elements styles as CSS.
+
+```clojure
+(ns my-ns
+  (:require-macros [picada.component :refer [defcomponent]]))
+
+(defcomponent my-component
+  :document
+  (fn [el {:keys [action title]}]
+    [:host {:role "dialog" :title (str "::" title)}
+      [:h2 "My component"]
+      [:div (if action (:name action))]])
+  :style
+  [:host
+    {:color "red"}]
+  :properties {:action nil :title ""})
+```
+
+## Theme
 
 Each component embed its own styles as CSS. Those are parameterized using CSS variables.
 
@@ -82,10 +112,6 @@ A combination of polyfills and transpiling will help with older browsers:
 * [dom4](https://github.com/WebReflection/dom4) (available as [CLJSJS package](https://github.com/cljsjs/packages/tree/master/dom4)) to polyfill DOM4 methods
 * [document-register-element](https://github.com/WebReflection/document-register-element) to polyfill Custom Elements (see more details [here](https://github.com/jeluard/lucuma#browser-support))
 * [cssnext](http://cssnext.io) to transpile CSS4
-
-### Icons
-
-Icon http://www.google.com/design/icons/
 
 ## License
 

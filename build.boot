@@ -4,7 +4,7 @@
  :dependencies '[[org.clojure/clojure           "1.7.0"]
                  [adzerk/boot-cljs              "0.0-3308-0" :scope "test"]
                  [org.martinklepsch/boot-garden "1.2.5-5"    :scope "test"]
-                 [adzerk/boot-reload            "0.2.6"      :scope "test"]
+                 [adzerk/boot-reload            "0.3.1"      :scope "test"]
                  [jeluard/boot-notify           "0.2.0"      :scope "test"]
                  [adzerk/bootlaces              "0.1.11"     :scope "test"]
 

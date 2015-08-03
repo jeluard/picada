@@ -5,11 +5,10 @@
                  [garden.stylesheet :refer [at-media]])]
       :cljs
       [(:require [picada.color :as col]
-                 [picada.component :as comp]
                  [picada.style :as sty]
                  [hipo.core :as h]
                  [garden.stylesheet :refer [at-media]])
-       (:require-macros [lucuma.core :refer [defcustomelement]])]))
+       (:require-macros [picada.component :refer [defcomponent]])]))
 
 (def styles
   [:pica-item
@@ -34,9 +33,8 @@
      {:margin-right "24px"}]]])
 
 #?(:cljs
-(defcustomelement pica-item
-  {comp/material-ref {:menu "http://www.google.com/design/spec/components/menus.html"}}
-  :mixins [comp/component]
+(defcomponent pica-item
+  :material-ref {:menu "http://www.google.com/design/spec/components/menus.html"}
   :document
   (fn [_ {:keys [action]}]
     [:host
@@ -44,4 +42,5 @@
       (if (contains? action :icon)
        [:pica-icon {:icon (:icon action)}])
       [:span (:name action)]]])
+  :style styles
   :properties {:action nil :disabled false}))
