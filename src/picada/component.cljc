@@ -4,7 +4,7 @@
                [hipo.core :as h]
                [hipo.interpreter :as hi]
                [lucuma.core :as l])))
-
+;http://developer.android.com/training/material/index.html
 #?(:cljs (defn wrap-listener [f wf] (fn [evt] (f evt wf))))
 #?(:cljs (defn wrap-action [m f] (merge {:fn (wrap-listener f (:fn m))} (if-let [s (:name m)] {:name s}) (if-let [s (:icon m)] {:icon s}))))
 

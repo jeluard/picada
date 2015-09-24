@@ -7,7 +7,7 @@
                  [picada.style :as sty]
                  [garden.stylesheet :refer [at-media]])
        (:require-macros [picada.component :refer [defcomponent]])]))
-
+; https://design.google.com/articles/evolving-the-google-identity/
 (def styles
   [:pica-toolbar
    {:display "flex"
@@ -52,9 +52,10 @@
         [:pica-icon-button {:action m}])]
      [:h2 title]
      [:div {:class "flex"}]
-     [:div {:class "right-actions"}
-      (for [m right-actions]
-        [:pica-icon-button {:action m}])]])
+     (if right-actions
+       [:div {:class "right-actions"}
+        (for [m right-actions]
+          [:pica-icon-button {:action m}])])])
   :style styles
   :properties {:primary false :title {:default "" :override? true} :left-actions nil :right-actions nil :transparent false}))
 

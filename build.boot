@@ -2,20 +2,20 @@
  :source-paths  #{"src"}
  :resources-paths  #{"resources-dev"}
  :dependencies '[[org.clojure/clojure           "1.7.0"]
-                 [adzerk/boot-cljs              "0.0-3308-0" :scope "test"]
-                 [org.martinklepsch/boot-garden "1.2.5-5"    :scope "test"]
-                 [adzerk/boot-reload            "0.3.1"      :scope "test"]
+                 [adzerk/boot-cljs              "1.7.48-4" :scope "test"]
+                 [org.martinklepsch/boot-garden "1.2.5-7"    :scope "test"]
+                 [adzerk/boot-reload            "0.3.2"      :scope "test"]
                  [jeluard/boot-notify           "0.2.0"      :scope "test"]
                  [adzerk/bootlaces              "0.1.11"     :scope "test"]
 
-                 [org.clojure/clojurescript "1.7.28" :classifier "aot"]
-                 [lucuma "0.5.0-SNAPSHOT"]
-                 [hipo "0.5.0-SNAPSHOT"]
-                 [garden "1.2.5"]])
+                 [org.clojure/clojurescript "1.7.107"]
+                 [lucuma "0.5.0"]
+                 [hipo "0.5.0"]
+                 [garden "1.3.0-SNAPSHOT"]])
 
 (def dev-dependencies '[[cljsjs/document-register-element "0.4.3-0"]
                         [cljsjs/dom4 "1.4.5-0"]
-                        [cljsjs/web-animations-js "2.1.2-0"]])
+                        [cljsjs/web-animations "2.1.2-0"]])
 
 (require
  '[adzerk.boot-cljs              :refer [cljs]]
@@ -49,7 +49,7 @@
       (doseq [[in-path in-file file] (find-css-files fileset files)]
         (boot.util/info "Transpiling %s\n" (:path file))
         (let [out-file (doto (clojure.java.io/file tmp-dir in-path) clojure.java.io/make-parents)]
-          (boot.util/dosh "cssnext" (.getPath in-file) (.getPath out-file) (if browsers (str "-b" browsers)))))
+          (boot.util/dosh "cssnext" (.getPath in-file) (.getPath out-file) "-C" "config.js" (if browsers (str "-b" browsers)))))
       (-> fileset
           (boot.core/add-resource tmp-dir)
           boot.core/commit!))))
@@ -70,7 +70,7 @@
     (notify)
     (reload)
     (css)
-    (cljs :compiler-options {:asset-path "out" :output-to "picada.js"})
+    (cljs)
     (build-jar)))
 
 (deftask release
@@ -79,4 +79,4 @@
   (merge-env! :source-paths #{"src-dev"})
   (comp
     (css)
-    (cljs :optimizations :advanced :compiler-options {:output-to "picada.js"})))
+    (cljs :optimizations :advanced)))

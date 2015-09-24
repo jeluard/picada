@@ -6,7 +6,7 @@ A [Material](http://www.google.com/design/spec/) inspired collection of HTML ele
 
 [Demo](https://jeluard.github.io/picada/)
 
-[![Clojars Project](http://clojars.org/picada/latest-version.svg)](http://clojars.org/picada).
+**WORK IN PROGRESS**
 
 ## Usage
 
@@ -84,7 +84,8 @@ Picada depends on [lucuma](https://github.com/jeluard/lucuma) for the Custom Ele
 
 ```clojure
 (ns my-ns
-  (:require-macros [picada.component :refer [defcomponent]]))
+  (:require [lucuma.core :as l]
+            [picada.component :refer-macros [defcomponent]]))
 
 (defcomponent my-component
   :document

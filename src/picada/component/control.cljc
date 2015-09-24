@@ -7,7 +7,7 @@
                  [picada.style :as sty]
                  [lucuma.core :as l])
        (:require-macros [picada.component :refer [defcomponent]])]))
-
+; http://hiram-madelaine.github.io/om-inputs/playground/
 (def ^:private line-height "29px")
 
 (def styles
@@ -67,14 +67,14 @@
     [:.error:empty
      {:display "none"}]]
    [:pica-checkbox
-    {:display "inline-block"
+    {:display "block"
      :height "18px"}
     [:input
      {:position "relative"
       :vertical-align "text-bottom"
       :width "18px"
       :height "18px"
-      :margin 0}
+      :margin "0 8px 0 0"}
      [:&:before
       {:display "block"
        :box-sizing "border-box"
@@ -103,16 +103,14 @@
        {:border-top "none"
         :border-left "none"}]]
      [:&:hover
-      {:cursor "pointer"}]]
-    [:label
-     {:padding-left "8px"}]]
+      {:cursor "pointer"}]]]
    [:pica-switch
-    {:display "inline-block"}
+    {:display "block"}
     [:input
      {:opacity 0
       :position "absolute"
       :width "35px"
-      :margin 0;
+      :margin 0
       :height "15px"
       :outline "none"}
      [:&:hover
@@ -123,7 +121,7 @@
       :height "15px"
       :border-radius "15px"
       :display "inline-block"
-      :left 0
+      :margin-right "8px"
       :background-color "grey"
       :pointer-events "none"
       :outline "none"}
@@ -146,10 +144,7 @@
      {:background-color "color(var(--pica-switch-color, var(--accent-color)) alpha(-50%))"}]
     ["input:checked + span div"
      {:background-color "var(--pica-switch-color, var(--accent-color))"
-      :transform "translate(20px)"}]
-    [:label
-     {:padding-left "8px"
-      :outline "none"}]]])
+      :transform "translate(20px)"}]]])
 
 #?(:cljs
 (defn add-class
@@ -276,6 +271,10 @@
   :properties {:id {:default "" :override? true} :value "" :input-attributes nil :validator nil :submitter nil :label "" :error-mapping nil}))
 
 ; TODO  checked must reflect input value
+#(:cljs
+  (def checkbox
+    {:style styles
+     :properties {:checked false :label ""}}))
 
 #?(:cljs
 (defcomponent pica-checkbox
@@ -283,8 +282,9 @@
   :document
   (fn [_ {:keys [checked label]}]
     [:host
-     [:input {:type "checkbox" :checked checked}]
-     [:label label]])
+     [:label
+      [:input {:type "checkbox" :checked checked}]
+      label]])
   :style styles
   :properties {:checked false :label ""}))
 
@@ -294,9 +294,10 @@
   :document
   (fn [_ {:keys [checked label]}]
     [:host
-     [:input {:type "checkbox" :checked checked}]
-     [:span
-      [:div]]
-     [:label label]])
+     [:label
+      [:input {:type "checkbox" :checked checked}]
+      [:span
+       [:div]]
+      label]])
   :style styles
   :properties {:checked false :label ""}))
