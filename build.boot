@@ -1,24 +1,26 @@
 (set-env!
  :source-paths  #{"src"}
  :resources-paths  #{"resources-dev"}
- :dependencies '[[org.clojure/clojure           "1.7.0"]
-                 [adzerk/boot-cljs              "1.7.48-4" :scope "test"]
-                 [org.martinklepsch/boot-garden "1.2.5-7"    :scope "test"]
-                 [adzerk/boot-reload            "0.3.2"      :scope "test"]
-                 [jeluard/boot-notify           "0.2.0"      :scope "test"]
-                 [adzerk/bootlaces              "0.1.11"     :scope "test"]
+ :dependencies '[[org.clojure/clojure           "1.8.0-RC4"]
+                 [adzerk/boot-cljs              "1.7.170-3"      :scope "test"]
+                 [pandeiro/boot-http            "0.7.1-SNAPSHOT" :scope "test"]
+                 [org.martinklepsch/boot-garden "1.2.5-8"        :scope "test"]
+                 [adzerk/boot-reload            "0.4.2"          :scope "test"]
+                 [jeluard/boot-notify           "0.2.0"          :scope "test"]
+                 [adzerk/bootlaces              "0.1.13"         :scope "test"]
 
-                 [org.clojure/clojurescript "1.7.107"]
+                 [org.clojure/clojurescript "1.7.170"]
                  [lucuma "0.5.0"]
-                 [hipo "0.5.0"]
-                 [garden "1.3.0-SNAPSHOT"]])
+                 [hipo "0.5.2"]
+                 [garden "1.3.0"]])
 
-(def dev-dependencies '[[cljsjs/document-register-element "0.4.3-0"]
-                        [cljsjs/dom4 "1.4.5-0"]
-                        [cljsjs/web-animations "2.1.2-0"]])
+(def dev-dependencies '[[cljsjs/document-register-element "0.5.3-0"]
+                        [cljsjs/dom4 "1.5.2-0"]
+                        [cljsjs/web-animations "2.1.4-0"]])
 
 (require
  '[adzerk.boot-cljs              :refer [cljs]]
+ '[pandeiro.boot-http            :refer [serve]]
  '[org.martinklepsch.boot-garden :refer [garden]]
  '[adzerk.boot-reload            :refer [reload]]
  '[jeluard.boot-notify           :refer [notify]]
@@ -66,6 +68,7 @@
   (merge-env! :source-paths #{"src-dev"})
   (merge-env! :resource-paths #{"resources-dev"})
   (comp
+    (serve)
     (watch :verbose true)
     (notify)
     (reload)
