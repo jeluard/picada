@@ -3,30 +3,25 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="picada.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <script src="main.js"></script>
   <style>
     section:first-of-type {
       padding-top: 100px;
     }
-    section > h2 {
-      display: none;
-    }
   </style>
 </head>
 <body>
-<!-- https://ebidel.github.io/material-playground/ -->
   <section id="tables">
   </section>
   <section>
     <h2>FAB</h2>
-    <pica-fab icon="reply" mini></pica-fab>
-    <pica-fab icon="reply"></pica-fab>
-    <pica-fab icon="reply" disabled></pica-fab>
+    <pica-fab icon="content/add" mini></pica-fab>
+    <pica-fab icon="content/reply"></pica-fab>
+    <pica-fab icon="content/reply" disabled></pica-fab>
     <!--pica-fab icon="reply" busy></pica-fab>
     <pica-fab icon="reply" mini busy></pica-fab-->
-    <pica-fab id="fab-with-action" icon="reply"></pica-fab>
+    <pica-fab id="fab-with-action" icon="content/reply"></pica-fab>
     <script>
       var el = document.getElementById("fab-with-action");
       el.action = {name: "My Action", fn: function() {alert("You clicked the button!")}};
@@ -34,8 +29,8 @@
     <pica-fab id="fab-flight" animation-icon-entry="entry" animation-icon-exit="exit"></pica-fab>
     <script>
       var ffel = document.querySelector("#fab-flight");
-      var action1 = {name: "First Action", icon: "flight_takeoff", fn: function() {console.log("takeoff!")}};
-      var action2 = {name: "Second Action", icon: "flight_land", fn: function() {console.log("land!")}};
+      var action1 = {name: "First Action", icon: "action/flight_takeoff", fn: function() {console.log("takeoff!")}};
+      var action2 = {name: "Second Action", icon: "action/flight_land", fn: function() {console.log("land!")}};
       ffel.action = action1;
       ffel.onclick = function() {
         if (ffel.action.name == action1.name) {
@@ -45,7 +40,7 @@
         }
       };
     </script>
-    <pica-fab icon="reply" animation-entry="delayed-entry"></pica-fab>
+    <pica-fab icon="content/reply" animation-entry="delayed-entry"></pica-fab>
   </section>
   <section>
     <h2>Buttons</h2>
@@ -56,12 +51,17 @@
   </section>
   <section>
     <h2>Icon buttons</h2>
-    <pica-icon-button icon="grade" style="color: red;"></pica-icon-button>
+    <pica-icon-button icon="action/grade" style="color: red;"></pica-icon-button>
     <script>
-      var gel = document.querySelector("pica-icon-button[icon='grade']");
+      var gel = document.querySelector("pica-icon-button[icon='action/grade']");
       gel.action = {name: "My Action", fn: function() {alert("You clicked the icon!")}};
     </script>
-    <pica-icon-button icon="favorite" disabled></pica-icon-button>
+    <pica-icon-button icon="action/favorite" disabled></pica-icon-button>
+  </section>
+  <section>
+    <h2>Icons</h2>
+    <pica-icon icon="action/grade"></pica-icon>
+    <pica-icon icon="action/favorite" disabled></pica-icon>
   </section>
   <section>
     <h2>Snackbar</h2>

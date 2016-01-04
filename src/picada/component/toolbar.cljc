@@ -65,4 +65,4 @@
    http://www.google.com/design/spec/layout/structure.html#structure-app-bar"
   ([s nav] (create-app-bar false s nav nil))
   ([t s nav menu]
-    [:pica-toolbar {:primary true :title s :left-actions [{:icon "menu" :fn #(dra/show nav) :name "Side navigation"}] :transparent t}])))
+    [:pica-toolbar {:primary true :title s :left-actions [{:icon :navigation/menu :fn #(dra/show nav) :name "Side navigation"}] :transparent t}])))

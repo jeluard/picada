@@ -71,12 +71,20 @@ Also as some component properties are not exposed as attributes (e.g. complex va
 
 ### Icons
 
-Components using icon rely on [Material Icons](http://www.google.com/design/icons/). Any icon in this catalog can be specified using its id.
+Components using icon rely on [Material Icons](https://design.google.com/icons/). Any icon in this catalog can be specified using its id in the form :category/id (e.g. `:action/reply`).
 
 ```html
-<pica-fab icon="reply" mini></pica-fab>
-<!-- will use http://www.google.com/design/icons/#ic_reply -->
+<pica-fab icon="content/reply" mini></pica-fab>
+<!-- http://www.google.com/design/icons/#ic_reply is part of content category -->
 ```
+
+on [github](https://github.com/google/material-design-icons/tree/master/sprites/svg-sprite).
+
+```clojure
+(picada.component.icon/set-url-sprite-format! "resources/svg-sprite-%s-symbol.svg#ic_%s_24px")
+```
+
+As this is used to derive the value of `use:xlink:href` this has to point to a relative URL. `use` does not offer cross domain facilities yet.
 
 ### Create a component
 

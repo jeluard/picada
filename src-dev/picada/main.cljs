@@ -58,7 +58,7 @@
 (defn ^:export open-menu
   [evt]
   (pmen/show-at-event evt "button" [{:name "Click" :fn #(psna/show "Yep")}
-                                    {:name "Settings" :fn #(psna/show "Settings") :icon "settings"}]))
+                                    {:name "Settings" :fn #(psna/show "Settings") :icon :action/settings}]))
 
 (defn init
   []
@@ -67,6 +67,6 @@
   (.appendChild js/document.body (h/create (ptb/create-app-bar "Titre" (list [:h2 "Your stuff"]
                                                                              (pdra/items
                                                                                [:pica-item {:disabled true :action {:name "Action disabled"}}]
-                                                                               [:pica-item {:action {:name "Settings" :icon "settings" :fn (fn [] (psna/show "You clicked on settings"))}}]))))))
+                                                                               [:pica-item {:action {:name "Settings" :icon :action/settings :fn (fn [] (psna/show "You clicked on settings"))}}]))))))
 
 (.addEventListener js/document "DOMContentLoaded" init)
