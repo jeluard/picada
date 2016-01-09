@@ -77,11 +77,26 @@
   (anim/dismiss el)))
 
 (def ^:private confirm-class "confirm")
+(def ^:private discard-class "discard")
 
 #?(:cljs
 (defn button-confirm
   [fel]
   (.querySelector fel (str "pica-button." confirm-class))))
+
+#?(:cljs
+(defn button-discard
+  [fel]
+  (.querySelector fel (str "pica-button." discard-class))))
+
+#?(:cljs
+(defn call-action-for
+  [el c]
+  (if-let [fel (.querySelector el "form")]
+    (if-let [bel (.querySelector fel (str "pica-button." c))]
+      (if-let [a (l/get-property bel :action)]
+        (if-not (.-disabled bel)
+          ((:fn a) el)))))))
 
 #?(:cljs
 (defn show
@@ -93,15 +108,14 @@
        (.appendChild (.-body js/document) oel)
        (.-position (.getComputedStyle js/window oel))
        (set! (.-visible oel) true))
-     (.addEventListener el "click" #(if (= el (.-target %)) (dismiss el))))
+     (.addEventListener el "click" #(when (= el (.-target %))
+                                      (call-action-for el discard-class)
+                                      (dismiss el))))
    (.addEventListener el "keydown"
                       #(condp = (.-which %)
-                        27 (dismiss el)
+                        27 (do (call-action-for el discard-class) (dismiss el))
                         13 (if-let [fel (.querySelector el "form")]
-                             (if-let [bel (button-confirm fel)]
-                               (if-let [a (l/get-property bel :action)]
-                                 (if-not (.-disabled bel)
-                                   ((:fn a) %)))))
+                             (call-action-for el confirm-class))
                         nil))
    (.appendChild (or pel (.-body js/document)) el)
    (.focus el)
@@ -133,7 +147,7 @@
   ([c d]
    (if (or c d)
      [:div {:class "actions"}
-      (if d [:pica-button {:class "discard" :action (wrap d)}])
+      (if d [:pica-button {:class discard-class :action (wrap d)}])
       (if c [:pica-button {:class confirm-class :action (wrap-with-values c)}])]))))
 
 #?(:cljs
@@ -150,27 +164,24 @@
 (defn show-alert
   ([s] (show-alert s nil))
   ([s mc] (show-alert s mc nil))
-  ([s mc md] (show-alert nil s mc md))
-  ([t s mc md] (show-alert false t s mc md))
-  ([modal? t s mc md] (show-alert nil modal? {} t s mc md))
+  ([s mc md] (show-alert true s mc md))
+  ([modal? s mc md] (show-alert modal? nil s mc md))
+  ([modal? t s mc md] (show-alert modal? {} t s mc md))
+  ([modal? m t s mc md] (show-alert nil modal? m t s mc md))
   ([pel modal? m t s mc md]
    (let [el (create-dialog :div m t [:p s] mc md)]
      (show pel el modal?)))))
 
 #?(:cljs
-   (defn show-form
-     ([t s] (show-form false t s nil nil))
-     ([t s mc] (show-form false t s mc nil))
-     ([t s mc md] (show-form false t s mc md))
-     ([modal? t s mc md] (show-form nil modal? {} t s mc md))
-     ([pel modal? m t s mc md]
-      (let [el (create-dialog :form m t s mc md)]
-        (show pel el modal?)))))
-
-#?(:cljs
-(defn show-multisteps-form
-  [v]
-  ))
+(defn show-form
+  ([t s] (show-form t s nil))
+  ([t s mc] (show-form t s mc nil))
+  ([t s mc md] (show-form true t s mc md))
+  ([modal? t s mc md] (show-form modal? {} t s mc md))
+  ([modal? m t s mc md] (show-form nil modal? m t s mc md))
+  ([pel modal? m t s mc md]
+    (let [el (create-dialog :form m t s mc md)]
+      (show pel el modal?)))))
 
 (def ^:private labeled-by "dialog-title")
 (def ^:private described-by "dialog-content")

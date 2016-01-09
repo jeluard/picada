@@ -15,29 +15,15 @@
 
 (defn ^:export open-snackbar [] (psna/show "Test snackar" {:name "Undo" :fn #(psna/show "You UNDOed the snackbar")}))
 (defn ^:export open-alert [] (pdia/show-alert "Just wanted to inform you." {:name "OK" :fn #(psna/show "You clicked OK")}))
-(defn ^:export open-modal-alert
+(defn ^:export open-non-modal-alert
   []
-  (pdia/show-alert nil true {:animation-entry "zoom-in" :animation-exit "zoom-out"} "Use your location?" "Yes please I really want to use your location."
+  (pdia/show-alert nil false {:animation-entry "zoom-in" :animation-exit "zoom-out"} "Use your location?" "Yes please I really want to use your location."
                    {:name "OK" :fn #(psna/show "You clicked OK")}
                    {:name "Undo" :fn #(psna/show "You clicked Undo")}))
 
 (defn ^:export open-dialog-form
   []
   (pdia/show-form "Some stuff"
-                  (list
-                    [:pica-input {:label "Nom" :validator (fn [evt f] (.setTimeout js/window #(f (if-let [s (.. evt -target -value)] (if (< 6 (count s)) "No more than 6 characters"))) 1000))
-                                  :input-attributes {:pattern ".{3,}" :required true :autofocus true}}]
-                    [:pica-input {:label "Prénom" :value "Jean-Claude"}]
-                    [:pica-checkbox {:checked true :label "Check this"}]
-                    [:pica-switch {:checked true :label "Switch this"}])
-                  {:name "OK" :fn #(pdia/show-alert (str "Got values: " %2))} {:name "Cancel"}))
-
-#_
-(defn ^:export open-dialog-multi-form
-  []
-  (pdia/show-multi-form
-    [{}]
-    "Some stuff"
                   (list
                     [:pica-input {:label "Nom" :validator (fn [evt f] (.setTimeout js/window #(f (if-let [s (.. evt -target -value)] (if (< 6 (count s)) "No more than 6 characters"))) 1000))
                                   :input-attributes {:pattern ".{3,}" :required true :autofocus true}}]
