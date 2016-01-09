@@ -44,7 +44,11 @@
 
 #?(:cljs (declare hide))
 
-#?(:cljs (def click-outside-listener #(if-not (.closest (.-target %) "pica-drawer") (hide (.querySelector js/document "pica-drawer")))))
+#?(:cljs
+(defn click-outside-listener
+  [evt]
+  (if-not (.closest (.-target evt) "pica-drawer")
+    (hide (.querySelector js/document "pica-drawer")))))
 
 #?(:cljs
 (defn hide
