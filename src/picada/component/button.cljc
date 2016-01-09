@@ -117,20 +117,17 @@
 #?(:cljs
 (defn- icon
   [m]
-  (let [i (:icon m)]
-    (if-not (empty? i)
-      i
-      (get-in m [:action :icon])))))
+  (or (:icon m) (get-in m [:action :icon]))))
 
 #?(:cljs
 (defcomponent pica-icon-button
   :material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}
-  :mixins [pica-button-base ]
+  :mixins [pica-button-base]
   :document
   (fn [_ {:keys [action disabled] :as m}]
     [:host {:tabindex (if disabled -1 0) :on-click (:fn action)}
       [:pica-icon {:icon (icon m)}]])
-  :properties {:icon ""}))
+  :properties {:icon {:type :keyword :default nil}}))
 
 #?(:cljs
 (defcomponent pica-fab
@@ -145,4 +142,4 @@
      [:pica-icon {:icon (icon m) :animation-icon-entry animation-icon-entry :animation-icon-exit animation-icon-exit}]
      (if busy
        [:pica-spinner {:attrs (if mini {:c 24 :r 22} {:c 32 :r 30})}])])
-  :properties {:icon "" :mini false :busy false :animation-icon-entry "" :animation-icon-exit ""}))
+  :properties {:icon {:type :keyword :default nil} :mini false :busy false :animation-icon-entry {:type :keyword :default nil} :animation-icon-exit {:type :keyword :default nil}}))
