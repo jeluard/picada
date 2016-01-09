@@ -9,8 +9,8 @@
                  [jeluard/boot-notify           "0.2.0"          :scope "test"]
                  [adzerk/bootlaces              "0.1.13"         :scope "test"]
 
-                 [org.clojure/clojurescript "1.7.170"]
-                 [lucuma "0.5.0"]
+                 [org.clojure/clojurescript "1.7.228"]
+                 [lucuma "0.5.1"]
                  [hipo "0.5.2"]
                  [garden "1.3.0"]])
 
@@ -73,7 +73,7 @@
     (notify)
     (reload)
     (css)
-    (cljs)
+    (cljs :compiler-options {:parallel-build true})
     (build-jar)))
 
 (deftask release
