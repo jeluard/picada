@@ -65,7 +65,7 @@
      ["pica-button:not([disabled]).confirm"
       {:color "var(--pica-dialog-button-confirm-color, currentColor)"}]]]])
 
-#?(:cljs (def ^:private input-id-prefix "i-"))
+#?(:cljs (def ^:private input-id-prefix "pica-dia-"))
 #?(:cljs (defn id->input-id [s] (str input-id-prefix s)))
 #?(:cljs (defn input-id->id [s] (subs s (count input-id-prefix))))
 
@@ -120,7 +120,7 @@
 #?(:cljs
 (defn values
   [el]
-  (into {} (for [iel (array-seq (.-elements el))] [(keyword (input-id iel)) (.-value iel)]))))
+  (into {} (for [iel (array-seq (.-elements el))] [(input-id iel) (.-value iel)]))))
 
 #?(:cljs (defn wrap [a] (comp/wrap-action a #(do (if %2 (%2 %1)) (dismiss (.closest (.-target %1) "pica-dialog"))))))
 #?(:cljs (defn wrap-with-values [a] (comp/wrap-action a #(do (if %2 (if-let [fel (.closest (.-target %1) "form")] (%2 %1 (values fel)) (%2 %1))) (dismiss (.closest (.-target %1) "pica-dialog"))))))
