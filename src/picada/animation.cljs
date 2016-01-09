@@ -35,18 +35,16 @@
 (defn ^:export all [] (keys @animations))
 
 (defn- get-animation
-  [s]
-  (if s
-    (or ((keyword s) @animations) (.warn js/console (str "Unknown animation <" s ">")))))
+  [k]
+  (if k
+    (or (k @animations) (.warn js/console (str "Unknown animation <" k ">")))))
 
 (defn animate
   [el k]
-  (let [o (get-animation k)
-        frames (or (:frames o) o)
-        options (:options o)]
-    (if options
-      (.animate el (clj->js frames) (clj->js options))
-      (.animate el (clj->js frames) (clj->js default-options)))))
+  (if-let [o (get-animation k)]
+    (let [frames (or (:frames o) o)
+          options (:options o)]
+      (.animate el (clj->js frames) (clj->js (or options default-options))))))
 
 (defn animate-property
   [el k f]
