@@ -97,20 +97,34 @@
 
 #?(:cljs
 (def pica-button-base
-  {:stryle styles
-   :properties {:action nil :disabled false :pressed false}
+  {:style styles
+   :properties {:action nil :disabled false :pressed false :trigger-type {:type :keyword :default nil}}
    :on-attached (fn [el]
                   (.addEventListener el "mousedown" #(when-not (.-pressed el) (set! (.-pressed el) true) ))
                   (.addEventListener el "mouseleave" #(if (.-pressed el) (set! (.-pressed el) false)))
                   (.addEventListener el "mouseup" #(set! (.-pressed el) false)))}))
 
 #?(:cljs
+(defn trigger
+  [t]
+  (case t
+    :mousedown :on-mousedown
+    :mouseup :on-mouseup
+    :doubleclick :on-doubleclick
+    :on-click)))
+
+#?(:cljs
+(defn properties
+  [{:keys [action disabled trigger-type]}]
+  {:tabindex (if disabled -1 0) (trigger trigger-type) (:fn action)}))
+
+#?(:cljs
 (defcomponent pica-button
   :material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}
   :mixins [pica-button-base]
   :document
-  (fn [_ {:keys [action disabled]}]
-    [:host {:tabindex (if disabled -1 0) :on-click (:fn action)}
+  (fn [_ {:keys [action] :as m}]
+    [:host (properties m)
       (:name action)])
   :properties {:raised false}))
 
@@ -124,8 +138,8 @@
   :material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}
   :mixins [pica-button-base]
   :document
-  (fn [_ {:keys [action disabled] :as m}]
-    [:host {:tabindex (if disabled -1 0) :on-click (:fn action)}
+  (fn [_ m]
+    [:host (properties m)
       [:pica-icon {:icon (icon m)}]])
   :properties {:icon {:type :keyword :default nil}}))
 
@@ -138,7 +152,7 @@
     [:host ^:attrs (merge {:tabindex (if disabled -1 0)}
                     (if (or action busy)
                       {:name (:name action)
-                       :on-click (comp/wrap-action action #(when-let [f (:fn action)] (set! (.-busy el) true) (f %) (set! (.-busy el) false)))}))
+                       (trigger m) (comp/wrap-action action #(when-let [f (:fn action)] (set! (.-busy el) true) (f %) (set! (.-busy el) false)))}))
      [:pica-icon {:icon (icon m) :animation-icon-entry animation-icon-entry :animation-icon-exit animation-icon-exit}]
      (if busy
        [:pica-spinner {:attrs (if mini {:c 24 :r 22} {:c 32 :r 30})}])])
