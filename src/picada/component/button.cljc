@@ -25,14 +25,16 @@
       ; TODO cssnext bug?
      ["&[disabled]"
       {:color (get-in col/text [:dark :--disabled-text-color])
-       :background (get-in col/text [:dark :--divider-color])
        :cursor "auto"
        :pointer-events "none"}]
-       ["&[busy]"
-        {:color (get-in col/text [:dark :--disabled-text-color])
-         :background (get-in col/text [:dark :--divider-color])
-         :cursor "auto"
-         :pointer-events "none"}]
+     ["&[pressed]"
+     ; TODO should be 40% of currentColor color(var(--pica-button-icon-color, currentColor) alpha(40%))
+      {:background-color (get-in col/text [:dark :--divider-color])}]
+     ["&[busy]"
+      {:color (get-in col/text [:dark :--disabled-text-color])
+       :background-color (get-in col/text [:dark :--divider-color])
+       :cursor "auto"
+       :pointer-events "none"}]
      ["&:hover:not([disabled]):not([busy])"
       {:cursor "pointer"}]]
     [:pica-button
