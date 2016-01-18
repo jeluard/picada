@@ -49,12 +49,11 @@
 (defn create-theme
   [kp ka]
   (merge
+    (get col/text (if (light-theme? ka) :dark :light))
     (let [p (kp col/palette)]
       {:--dark-primary-color (:700 p) ; use for status bar color
        :--primary-color (:500 p)
-       :--light-primary-color (:100 p)})
-    {:--accent-color (:A200 (ka col/palette))
-     :--accent-icon-color (get-in col/text [(if (light-theme? ka) :dark :light) :--icon-color])}
-    (get col/text (if (light-theme? kp) :dark :light))
-    {:--disabled-background-color "#eaeaea"
-     :--error-color "#db4437"}))
+       :--light-primary-color (:100 p)
+       :--accent-color (:A200 (ka col/palette))
+       :--disabled-background-color "#eaeaea"
+       :--error-color "#db4437"})))

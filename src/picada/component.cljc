@@ -4,54 +4,53 @@
                [hipo.core :as h]
                [hipo.interpreter :as hi]
                [lucuma.core :as l])))
-;http://developer.android.com/training/material/index.html
+
 #?(:cljs (defn wrap-listener [f wf] (fn [evt] (f evt wf))))
 #?(:cljs (defn wrap-action [m f] (merge {:fn (wrap-listener f (:fn m))} (if-let [s (:name m)] {:name s}) (if-let [s (:icon m)] {:icon s}))))
 
-(def ^:private changes (atom []))
+(def ^:private changes (atom {}))
 (def ^:private raf-scheduled (atom false))
 (def ^:private default-hiccup [:host])
 (def ^:private hiccup-property "host_hiccup")
 
-(defn replace-host
-  [h t]
-  (assoc h 0 t))
-
 #?(:cljs
 (defn perform-reconciliation
-  [hm]
+  []
   (reset! raf-scheduled false)
-  (doseq [{:keys [el m]} @changes]
+  (doseq [[el m] @changes]
+    ; TODO Can we loose incoming changes to this el if detected between those 2 lines?
+    (swap! changes dissoc el)
     (let [h ((:document m) el (l/get-properties el))]
-      (h/reconciliate! el (aget el hiccup-property) h hm)
-      (aset el hiccup-property h))
-    (swap! changes subvec 1))))
+      (h/reconciliate! el (aget el hiccup-property) h m)
+      (aset el hiccup-property h)))))
 
 #?(:cljs
 (defn schedule-reconciliation-if-needed!
   "Schedule reconciliation using rAF if no call is scheduled yet"
-  [hm]
+  []
   (if (compare-and-set! raf-scheduled false true)
-    (.requestAnimationFrame js/window #(perform-reconciliation hm)))))
+    (.requestAnimationFrame js/window perform-reconciliation))))
 
 #?(:cljs
 (defn enqueue-changes
-  [el m hm]
-  (swap! changes conj {:el el :m m})
-  (schedule-reconciliation-if-needed! hm)))
+  [el m]
+  (swap! changes assoc el m)
+  (schedule-reconciliation-if-needed!)))
 
 #?(:cljs
 (defn reconciliate
-  [{:keys [document] :as m} hm] ; {:interceptors [(hipo.interceptor/LogInterceptor. false)]}
+  [{:keys [document] :as m}] ; {:interceptors [(hipo.interceptor/LogInterceptor. false)]}
    (assert (not (nil? document)) (str "No :document provided for " (:name m)))
    (merge-with l/default-mixin-combiner m
                {:on-created (fn [el o]
+                              (when-not (zero? (.-childElementCount el))
+                                (.warn js/console "Component" el " can't have children" (.-children el)))
                               (let [h (document el o)]
                                 (assert (= :host (first h)) ":document fn does not generate a hiccup vector with :host as root node")
                                 ; Do not enqueue but synchronously reconciliate so that the element content is accurate at the end of :on-created
-                                (h/reconciliate! el default-hiccup h hm)
+                                (h/reconciliate! el default-hiccup h m)
                                 (aset el hiccup-property h)))
-                :on-property-changed (fn [el s] (enqueue-changes el m hm))})))
+                :on-property-changed (fn [el s] (enqueue-changes el m))})))
 
 ; TODO idea
 ; document gets element and a map that can be augmented

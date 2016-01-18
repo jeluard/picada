@@ -9,6 +9,7 @@
             cljsjs.document-register-element
             cljsjs.dom4
             cljsjs.web-animations)
+
   (:require-macros [picada.doc :refer [doc]]))
 
 (boot/register-all)
@@ -48,8 +49,6 @@
 
 (defn init
   []
-  (.appendChild (.querySelector js/document "#tables")
-                (h/create [:pica-table {:header true :data [{:a "1"}]}]))
   (.appendChild js/document.body (h/create (ptb/create-app-bar "Titre" (list [:h2 "Your stuff"]
                                                                              (pdra/items
                                                                                [:pica-item {:disabled true :action {:name "Action disabled"}}]

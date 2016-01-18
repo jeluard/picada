@@ -5,9 +5,9 @@
 
 (def text
  {:dark
-  {:--primary-text-color "rgba(0, 0, 0, .87)" :--secondary-text-color "rgba(0, 0, 0, .54)" :--disabled-text-color "rgba(0, 0, 0, .26)" :--divider-color "rgba(0, 0, 0, .12)" :--icon-color "rgba(0, 0, 0, .54)"}
+  {:--primary-text-color "rgba(0, 0, 0, .87)" :--secondary-text-color "rgba(0, 0, 0, .54)" :--disabled-text-color "rgba(0, 0, 0, .26)" :--divider-color "rgba(0, 0, 0, .12)"}
   :light
-  {:--primary-text-color "rgb(255, 255, 255)" :--secondary-text-color "rgba(255, 255, 255, .7)" :--disabled-text-color "rgba(255, 255, 255, .30)" :--divider-color "rgba(255, 255, 255, .12)" :--icon-color "rgb(255, 255, 255)"}})
+  {:--primary-text-color "rgb(255, 255, 255)" :--secondary-text-color "rgba(255, 255, 255, .7)" :--disabled-text-color "rgba(255, 255, 255, .30)" :--divider-color "rgba(255, 255, 255, .12)"}})
 
 (def palette
   {:red
