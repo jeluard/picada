@@ -3,6 +3,7 @@
             [picada.component.control :as con]
             [picada.component.dialog :as dia]
             [picada.component.drawer :as dra]
+            [picada.component.grid-list :as gri]
             [picada.component.icon :as ico]
             [picada.component.item :as ite]
             [picada.component.menu :as men]
@@ -20,10 +21,10 @@
 
 #?(:cljs
 (def all-components [but/pica-button but/pica-fab but/pica-icon-button con/pica-checkbox con/pica-input con/pica-switch
-                     dia/pica-dialog dra/pica-drawer ico/pica-icon ite/pica-item men/pica-menu ovl/pica-overlay
+                     dia/pica-dialog dra/pica-drawer gri/pica-grid-list gri/pica-tile ico/pica-icon ite/pica-item men/pica-menu ovl/pica-overlay
                      sna/pica-snackbar spi/pica-spinner tab/pica-table tlb/pica-toolbar]))
 
-(def all-styles [but/styles con/styles dia/styles dra/styles ico/styles ite/styles men/styles ovl/styles sna/styles spi/styles tab/styles tlb/styles])
+(def all-styles [but/styles con/styles dia/styles dra/styles gri/styles ico/styles ite/styles men/styles ovl/styles sna/styles spi/styles tab/styles tlb/styles])
 
 #_
 (defn- at-rule [identifier value]
@@ -49,7 +50,7 @@
 
 (defn all
   [kp ka]
-  [#_(custom-media :desktop [])
+  [#_(custom-media :--desktop [])
    #_["@custom-media --desktop (min-width: 600px);" {}]
    ["@custom-selector :--pica-button pica-button, pica-fab, pica-icon-button;" {}]
    [":root" (st/create-theme kp ka)]

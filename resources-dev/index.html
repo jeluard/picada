@@ -12,8 +12,6 @@
   </style>
 </head>
 <body>
-  <section id="tables">
-  </section>
   <section>
     <h2>FAB</h2>
     <pica-fab icon="content/add" mini></pica-fab>
@@ -62,6 +60,20 @@
     <h2>Icons</h2>
     <pica-icon icon="action/grade"></pica-icon>
     <pica-icon icon="action/favorite" disabled></pica-icon>
+  </section>
+  <section>
+    <h2>Grid Lists</h2>
+    <pica-grid-list>
+      <pica-tile title="Click me!" src="http://c2.staticflickr.com/6/5786/21438963001_e2fe281449_n.jpg"></pica-tile>
+      <pica-tile title="Click me!" src="http://c1.staticflickr.com/1/649/20943722329_1652bd7667.jpg"></pica-tile>
+      <pica-tile title="Click me!" src="http://c1.staticflickr.com/1/621/20943245336_8932c052a9.jpg"></pica-tile>
+    </pica-grid-list>
+    <script>
+      Array.prototype.slice.call(document.querySelectorAll('pica-tile')).forEach(function(el) {
+        el.primary_action = {name: "My Action", fn: function() {alert("You clicked on this tile!")}};
+        el.secondary_action = {name: "My Action 2", icon: "action/grade", fn: function() {alert("You starred this tile!")}};
+      });
+    </script>
   </section>
   <section>
     <h2>Snackbar</h2>
