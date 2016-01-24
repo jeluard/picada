@@ -28,7 +28,7 @@
    [:h2
     {:margin 0
      :padding-left "24px"
-     :color "var(--pica-toolbar-title-color, var(:--primary-text-color))"}]
+     :color "var(--pica-toolbar-title-color, var(--primary-text-color))"}]
    [:.flex
     {:flex 1}]
    [:.right-actions

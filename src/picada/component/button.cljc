@@ -18,8 +18,7 @@
     [":--pica-button"
      {:position "relative"
       :transition st/shadow-transition
-      :transform-origin "50% 50%"
-      :outline "none"}
+      :transform-origin "50% 50%"}
      [:pica-icon
       {:position "absolute"}]
       ; TODO cssnext bug?
@@ -27,6 +26,8 @@
       {:color (get-in col/text [:dark :--disabled-text-color])
        :cursor "auto"
        :pointer-events "none"}]
+     ["&:focus"
+      {:outline "none"}]
      ["&[pressed]"
      ; TODO should be 40% of currentColor color(var(--pica-button-icon-color, currentColor) alpha(40%))
       {:background-color (get-in col/text [:dark :--divider-color])}]
@@ -69,7 +70,7 @@
       :height "56px"
       :padding "16px"
       :border-radius "50%"
-      :color "var(--pica-fab-color, var(--accent-icon-color))"
+      :color "var(--pica-fab-color, var(--secondary-text-color))"
       :background-color "var(--pica-fab-background-color, var(--accent-color))"}
      [:pica-icon
       {:width "inherit"
