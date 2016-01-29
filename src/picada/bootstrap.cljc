@@ -10,7 +10,8 @@
             [picada.component.overlay :as ovl]
             [picada.component.snackbar :as sna]
             [picada.component.spinner :as spi]
-            [picada.component.table :as tab]
+            [picada.component.tab :as tab]
+            [picada.component.table :as tabl]
             [picada.component.toolbar :as tlb]
             [picada.style :as st]
             #?(:cljs [lucuma.core :as luc])
@@ -22,9 +23,9 @@
 #?(:cljs
 (def all-components [but/pica-button but/pica-fab but/pica-icon-button con/pica-checkbox con/pica-input con/pica-switch
                      dia/pica-dialog dra/pica-drawer gri/pica-grid-list gri/pica-tile ico/pica-icon ite/pica-item men/pica-menu ovl/pica-overlay
-                     sna/pica-snackbar spi/pica-spinner tab/pica-table tlb/pica-toolbar]))
+                     sna/pica-snackbar spi/pica-spinner tab/pica-tab tab/pica-tab-bar tabl/pica-table tlb/pica-toolbar]))
 
-(def all-styles [but/styles con/styles dia/styles dra/styles gri/styles ico/styles ite/styles men/styles ovl/styles sna/styles spi/styles tab/styles tlb/styles])
+(def all-styles [but/styles con/styles dia/styles dra/styles gri/styles ico/styles ite/styles men/styles ovl/styles sna/styles spi/styles tab/styles tabl/styles tlb/styles])
 
 #_
 (defn- at-rule [identifier value]

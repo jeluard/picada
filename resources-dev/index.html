@@ -87,6 +87,24 @@
     <button onclick="picada.main.open_dialog_input()">Open an input dialog</button>
   </section>
   <section>
+    <h2>Tabs</h2>
+    <pica-tab-bar>
+      <pica-tab label="A tab" active></pica-tab>
+      <pica-tab label="Another tab"></pica-tab>
+      <pica-tab label="A disabled tab" disabled></pica-tab>
+      <pica-tab label="A tab with a very very long label"></pica-tab>
+    </pica-tab-bar>
+    <pica-tab-bar centered>
+      <pica-tab label="A tab" active></pica-tab>
+      <pica-tab label="Another tab"></pica-tab>
+    </pica-tab-bar>
+    <script>
+      Array.prototype.slice.call(document.querySelectorAll('pica-tab')).forEach(function(el) {
+        el.action = {name: "My Action", fn: function(evt) {picada.component.snackbar.show("You clicked on tab: " + evt.target.label)}};
+      });
+    </script>
+  </section>
+  <section>
     <h2>Menu</h2>
     <button onclick="picada.main.open_menu(event);">Open a menu</button>
   </section>
