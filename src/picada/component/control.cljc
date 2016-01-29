@@ -36,7 +36,7 @@
     [:label.floating
      {:color "var(--pica-input-valid-label-color, var(--pica-input-valid-color, var(--primary-color)))"
       :font-size "12px"
-      :top "-12px"}]
+      :top "-16px"}]
     [:.underline
      {:width "100%"
       :position "relative"
@@ -45,7 +45,7 @@
       :transform-origin "center center"
       :transform "scale3d(0,1,1)"
       :padding "0 2px"
-      :background-color "var(--pica-input-underline-color, var(:--disabled-text-color))"}]
+      :background-color "var(--pica-input-underline-color, var(--disabled-text-color))"}]
     ["input:not(.validating):valid ~ div.underline"
      {:transition "all 0.25s"}]
     ["input:not(.validating):valid:focus ~ div.underline"

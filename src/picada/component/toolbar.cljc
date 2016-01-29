@@ -20,7 +20,7 @@
      :left 0
      :width "100%"}]
    ["&:not([transparent])"
-    {:background "var(--pica-toolbar-background-color, var(--primary-color))"}
+    {:background-color "var(--pica-toolbar-background-color, var(--primary-color))"}
     (sty/shadows 4)]
    ["&[primary]:not([transparent])"
     {:z-index 15 ; just bellow drawers
