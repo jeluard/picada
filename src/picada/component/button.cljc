@@ -1,13 +1,12 @@
 (ns picada.component.button
-  #?@(:clj [(:require [picada.color :as col]
-                      [picada.style :as st])]
-      :cljs
-      [(:require [picada.animation :as anim]
-                 [picada.color :as col]
-                 [picada.component :as comp]
-                 [picada.style :as st]
-                 [lucuma.core :as l])
-       (:require-macros [picada.component :refer [defcomponent]])]))
+  (:require [picada.color :as col]
+            [picada.style :as st]
+            [picada.typography :as typ]
+            #?@(:cljs
+              [[picada.animation :as anim]
+               [picada.component :as comp]
+               [lucuma.core :as l]]))
+  #?(:cljs (:require-macros [picada.component :refer [defcomponent]])))
 
 (def display
   {:display "inline-block"
@@ -48,7 +47,7 @@
       :font-size "14px"
       :text-transform "uppercase"
       :text-align "center"
-      :font-weight 500
+      :font-weight (:medium typ/font-weights)
       :line-height "36px"
       :user-select "none"}
      ["&[raised]"

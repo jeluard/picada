@@ -1,5 +1,6 @@
 (ns picada.component.tab
   (:require [picada.color :as col]
+            [picada.typography :as typ]
             [garden.stylesheet :refer [at-media]])
   #?(:cljs (:require-macros [picada.component :refer [defcomponent]])))
 
@@ -32,7 +33,7 @@
        :font-size "14px"
        :text-transform "uppercase"
        :text-align "center"
-       :font-weight "medium"
+       :font-weight (:medium typ/font-weights)
        :color "rgba(255, 255, 255, 0.7)"
        :overflow "hidden"
        :text-overflow "ellipsis"
