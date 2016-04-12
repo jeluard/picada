@@ -12,7 +12,7 @@ A [Material](http://www.google.com/design/spec/) inspired collection of HTML ele
 
 Picada components are native HTML elements that can be manipulated like any HTML element (e.g. `<div/>`).
 
-```
+```clojure
 (ns my-app
   (:require [picada.bootstrap :as boot]
             [picada.component.button :as but]
