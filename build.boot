@@ -31,19 +31,13 @@
 
 (bootlaces! +version+)
 (task-options!
+  cljs {:compiler-options {:parallel-build true}}
   pom  {:project     'picada
         :version     +version+
         :description "A Material inspired collection of HTML elements (Custom Elements)"
         :url         "https://github.com/jeluard/picada"
         :scm         {:url "https://github.com/jeluard/picada"}
         :license     {"EPL" "http://www.eclipse.org/legal/epl-v10.html"}})
-
-#_
-(defn- find-css-files [fs files]
-  (->> fs
-       boot.core/input-files
-       (boot.core/by-re files)
-       (map (juxt boot.core/tmp-path boot.core/tmp-file identity))))
 
 (deftask css
   []
@@ -58,11 +52,11 @@
   (merge-env! :resource-paths #{"resources-dev"})
   (comp
     (serve)
-    (watch :verbose true)
+    (watch)
     (notify)
     (reload)
     (css)
-    (cljs :compiler-options {:parallel-build true})
+    (cljs)
     (build-jar)))
 
 (deftask release
