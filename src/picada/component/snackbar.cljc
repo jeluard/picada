@@ -13,7 +13,7 @@
 
 ; TODO
 ; integrate with fab
-; swipe-off dismiss snackbar
+; swipe-off dismiss snackbar (https://github.com/GoogleChrome/ui-element-samples/blob/master/swipeable-cards/cards.js)
 
 (def styles
   [:pica-snackbar
