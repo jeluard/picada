@@ -93,7 +93,18 @@
      ["&[mini][busy]"
       [:pica-spinner
        [:svg
-        {:height "48px" :width "48px"}]]]]))
+        {:height "48px" :width "48px"}]]]]
+    [:pica-button-bar
+     (merge
+       {:display "inline-flex"
+        :border-radius "2px"}
+       (st/shadows 1))
+     [:pica-icon-button
+      {:border-radius "initial"}]
+     ["pica-icon-button:not(:last-of-type)"
+      {:border-color "var(--disabled-background-color)"
+       :border-width "1px"
+       :border-right-style "solid"}]]))
 
 ; TODO if action is nil, auto disabled?
 
@@ -159,3 +170,7 @@
      (if busy
        [:pica-spinner {:attrs (if mini {:c 24 :r 22} {:c 32 :r 30})}])])
   :properties {:icon {:type :keyword :default nil} :mini false :busy false :animation-icon-entry {:type :keyword :default nil} :animation-icon-exit {:type :keyword :default nil}}))
+
+#?(:cljs
+(defcomponent pica-button-bar
+  :material-ref {:button "http://www.google.com/design/spec/components/buttons.html"}))

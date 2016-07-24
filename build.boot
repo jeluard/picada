@@ -2,7 +2,7 @@
  :source-paths  #{"src"}
  :resources-paths  #{"resources-dev"}
  :dependencies '[[org.clojure/clojure           "1.8.0"]
-                 [adzerk/boot-cljs              "1.7.228-1"      :scope "test"]
+                 [adzerk/boot-cljs              "1.7.228.1"      :scope "test"]
                  [pandeiro/boot-http            "0.7.3"          :scope "test"]
                  [org.martinklepsch/boot-garden "1.3.0-0"        :scope "test"]
                  [adzerk/boot-reload            "0.4.7"          :scope "test"]
@@ -59,7 +59,7 @@
     (cljs)
     (build-jar)))
 
-(deftask release
+(deftask package
   []
   (merge-env! :dependencies dev-dependencies)
   (merge-env! :source-paths #{"src-dev"})

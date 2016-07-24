@@ -1,15 +1,14 @@
 (ns picada.component.dialog
-  #?@(:clj [(:require [picada.color :as col]
-                      [picada.style :as st])]
-      :cljs
-      [(:require [picada.aria :as aria]
-                 [picada.animation :as anim]
-                 [picada.color :as col]
-                 [picada.component :as comp]
-                 [picada.style :as st]
-                 [hipo.core :as h]
-                 [lucuma.core :as l])
-       (:require-macros [picada.component :refer [defcomponent]])]))
+  (:require [picada.color :as col]
+            [picada.style :as st]
+            [picada.typography :as typ]
+            #?@(:cljs
+              [[picada.aria :as aria]
+               [picada.animation :as anim]
+               [picada.component :as comp]
+               [hipo.core :as h]
+               [lucuma.core :as l]]))
+  #?(:cljs (:require-macros [picada.component :refer [defcomponent]])))
 
 (def styles
   [:pica-dialog
@@ -41,7 +40,7 @@
       :overflow "hidden"
       :text-overflow "ellipsis"
       :font-size "20px"
-      :font-weight 500
+      :font-weight (:medium typ/font-weights)
       :padding-bottom "8px"
       :line-height "28px"}]
     [:p
@@ -59,7 +58,7 @@
      [:pica-button
       {:min-width "64px"}]
      [:pica-button.confirm
-      {:font-weight "bold"}]
+      {:font-weight (:bold typ/font-weights)}]
      ["pica-button:not([disabled]).discard"
       {:color "var(--pica-dialog-button-discard-color, currentColor)"}]
      ["pica-button:not([disabled]).confirm"
@@ -88,6 +87,8 @@
 (defn button-discard
   [fel]
   (.querySelector fel (str "pica-button." discard-class))))
+
+; TODO Cancel action must be called when dismissing dialog. Might requiring introducing a different component storing actions.
 
 #?(:cljs
 (defn call-action-for

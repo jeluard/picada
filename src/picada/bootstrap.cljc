@@ -17,7 +17,7 @@
             #?(:cljs [lucuma.core :as luc])))
 
 #?(:cljs
-(def all-components [but/pica-button but/pica-fab but/pica-icon-button con/pica-checkbox con/pica-input con/pica-switch
+(def all-components [but/pica-button but/pica-button-bar but/pica-fab but/pica-icon-button con/pica-checkbox con/pica-input con/pica-switch
                      dia/pica-dialog dra/pica-drawer gri/pica-grid-list gri/pica-tile ico/pica-icon ite/pica-item men/pica-menu ovl/pica-overlay
                      sna/pica-snackbar spi/pica-spinner tab/pica-tab tab/pica-tab-bar tabl/pica-table tlb/pica-toolbar]))
 

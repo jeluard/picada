@@ -37,7 +37,6 @@ Any webpage using Picada components must import associated `JS` and `CSS` assets
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="picada.css">
   <script src="picada.js"></script>
 </head>
@@ -113,10 +112,11 @@ Each component embed its own styles as CSS. Those are parameterized using CSS va
 
 ## Browser support
 
-Picada relies on modern technology ([CSS Animations](http://www.w3.org/TR/css3-animations/), CSS4 and DOM4) that might not be available in your target browsers.
+Picada relies on modern technology (SVG spritemaps, [CSS Animations](http://www.w3.org/TR/css3-animations/), CSS4 and DOM4) that might not be available in your target browsers.
 
 A combination of polyfills and transpiling will help with older browsers:
 
+* [SVG for Everybody](https://github.com/jonathantneal/svg4everybody) to add external SVG spritemaps support
 * [web-animation-js](https://github.com/web-animations/web-animations-js/) to polyfill CSS Animations
 * [dom4](https://github.com/WebReflection/dom4) (available as [CLJSJS package](https://github.com/cljsjs/packages/tree/master/dom4)) to polyfill DOM4 methods
 * [document-register-element](https://github.com/WebReflection/document-register-element) to polyfill Custom Elements (see more details [here](https://github.com/jeluard/lucuma#browser-support))
